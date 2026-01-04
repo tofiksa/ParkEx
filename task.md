@@ -5,7 +5,7 @@ Status codes: pending | in_progress | blocked | done
 | ID       | Title                                                    | Description                                                                                           | Complexity | Status |
 |----------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------------|------------|--------|
 | TASK-000 | Repo standards                                           | Enforce SemVer and Conventional Commit style (commitlint/config), release/versioning workflow docs.   | Low        | done    |
-| TASK-001 | Realtime choice                                          | Decide Supabase Realtime vs Firebase; document rationale and PoC plan.                                | Medium     | pending |
+| TASK-001 | Realtime choice                                          | Decide Supabase Realtime vs Firebase; document rationale and PoC plan.                                | Medium     | done |
 | TASK-002 | Bootstrap app                                            | Init Next.js (App Router, TS, Biome), Vercel config, baseline page.                                   | Medium     | pending |
 | TASK-003 | Supabase wiring                                          | Env template, client/server helpers, connectivity/health route.                                       | Medium     | pending |
 | TASK-004 | Domain schema                                            | Migrations for users (roles), garages, bids, bid session with default 30d; storage buckets for images.| Medium-High| pending |
