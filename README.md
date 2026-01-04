@@ -19,6 +19,7 @@
 - Klient: `lib/supabase/client.ts` bruker `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - Server: `lib/supabase/server.ts` bruker `createServerClient` med cookies for App Router.
 - Health endpoint: `GET /api/health` returnerer `{ status: "ok", timestamp }`.
+- Domene/migrasjon: se `supabase/migrations/0001_domain.sql` og `docs/schema.md` (profiler, garasjer, bud, 30 dagers standard budfrist, RLS, storage bucket `garage-images`).
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`
