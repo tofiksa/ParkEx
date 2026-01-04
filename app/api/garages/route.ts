@@ -47,3 +47,21 @@ export async function POST(request: Request) {
   return NextResponse.json({ ok: true });
 }
 
+export async function GET(request: Request) {
+  const supabase = getSupabaseServerClient();
+  const { searchParams } = new URL(request.url);
+  const limit = Number(searchParams.get("limit")) || 20;
+
+  const { data, error } = await supabase
+    .from("garages")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(Math.min(limit, 50));
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ data });
+}
+

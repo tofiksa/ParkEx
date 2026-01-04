@@ -1,0 +1,29 @@
+import { NextResponse } from "next/server";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+
+export async function GET(
+  _request: Request,
+  { params }: { params: { id: string } }
+) {
+  const supabase = getSupabaseServerClient();
+  const { data: garage, error } = await supabase
+    .from("garages")
+    .select("*")
+    .eq("id", params.id)
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 404 });
+  }
+
+  const { data: topBid } = await supabase
+    .from("bids")
+    .select("amount, bidder_id, created_at")
+    .eq("garage_id", params.id)
+    .order("amount", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return NextResponse.json({ garage, topBid });
+}
+
