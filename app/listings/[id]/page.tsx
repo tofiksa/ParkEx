@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { BidForm } from "./BidForm";
 
 export default async function ListingDetail({
   params
@@ -26,6 +27,8 @@ export default async function ListingDetail({
     .limit(5);
 
   const topBid = bids?.[0];
+  const minRequired =
+    Math.max(Number(garage.start_price), topBid?.amount ?? 0) + 1;
 
   return (
     <main className="flex min-h-screen items-start justify-center bg-transparent px-6 py-16">
@@ -108,6 +111,15 @@ export default async function ListingDetail({
               ))}
             </ul>
           )}
+        </div>
+        <div className="rounded-2xl border border-border/70 bg-card/70 p-6 shadow-xl backdrop-blur">
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Legg inn bud</p>
+          <p className="text-sm text-muted-foreground">
+            Minste gyldige bud: {minRequired.toLocaleString("no-NO")} kr
+          </p>
+          <div className="mt-3">
+            <BidForm garageId={garage.id} minRequired={minRequired} />
+          </div>
         </div>
       </div>
     </main>
