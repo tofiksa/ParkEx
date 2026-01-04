@@ -23,6 +23,8 @@
 - Domene/migrasjon: se `supabase/migrations/0001_domain.sql` og `docs/schema.md` (profiler, garasjer, bud, 30 dagers standard budfrist, RLS, storage bucket `garage-images`).
 - Auth: Supabase auth med Google aktivert via `Auth` komponenter (pages `/login`, `/register`); profil-opprettelse via server action `app/(auth)/register/actions.ts` til `profiles`.
 - Listings: Seller form på `/sell/new` (server action), API for opprettelse `/api/garages`; signed upload URL via `/api/storage/garage-upload-url`.
+- Analytics: event collector `/api/analytics` (fields: name, path, sessionId, props) lagrer i `analytics_events` (RLS insert-all).
+- Feedback: `/api/feedback` (message, optional rating 1-5, contact) lagrer i `feedback` (RLS insert-all).
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`

@@ -43,7 +43,9 @@ Mål: Verifisere kritiske brukerscenarier for garasjemarkedet (auth, selgerflyt,
 - [ ] Profilskjema oppdaterer `profiles`.
 - [ ] `/sell/new` opprettet garasje uten budfrist gir `bid_end_at` ca. +30d.
 - [ ] Signed upload URL fra `/api/storage/garage-upload-url` kan brukes til å PUT’e fil og fil-URL kan lagres i listing.
+- [ ] `/listings` viser annonser; `/listings/[id]` viser realtime budoppdateringer etter innsending av bud fra en annen klient.
 - [ ] `GET /api/health` returnerer 200/ok.
+- [ ] Analytics/feedback: `POST /api/analytics` med event-name svarer 200; `POST /api/feedback` med message svarer 200.
 - [ ] `npm run lint` og `npm run build` grønt.
 
 ## Notater
