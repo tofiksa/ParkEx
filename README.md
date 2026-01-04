@@ -15,6 +15,7 @@
 3) Utvikling: `npm run dev`
 4) Bygg: `npm run build` og start: `npm run start`
 5) Supabase env: kopier `env.example` til `.env.local` og fyll `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (service key kun på server).
+6) Tester: `npm test` (Vitest, jsdom).
 
 ## Supabase wiring
 - Klient: `lib/supabase/client.ts` bruker `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY`.
