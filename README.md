@@ -6,6 +6,7 @@
 - Lint/format: Biome (`npm run lint`, `npm run format`, `npm run check`).
 - Hooks: Husky runs commitlint on `commit-msg`.
 - Styling: TailwindCSS + shadcn/ui base config; `cn` helper in `lib/utils.ts`. Tailwind tokens/theme in `tailwind.config.ts`.
+- CI/CD: GitHub Actions for lint+build (`.github/workflows/ci.yml`) and release/versioning via Release Please (`.github/workflows/release-please.yml`).
 
 ## Setup
 1) Install deps: `npm install`

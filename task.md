@@ -19,4 +19,5 @@ Status codes: pending | in_progress | blocked | done
 | TASK-012 | Mobile-first UX                                          | Responsive/mobile-first layouts with clear CTAs; accessibility pass.                                  | Medium     | pending |
 | TASK-013 | Testing & CI                                             | Unit tests domain, integration/API, smoke for analytics/metrics; CI pipeline green.                   | Medium     | pending |
 | TASK-014 | Design system setup                                      | Add Tailwind + shadcn/ui setup and cn helper baseline.                                                | Medium     | done        |
+| TASK-015 | CI/CD versioning                                         | GitHub Actions for lint/build and release/versioning automation.                                      | Medium     | in_progress |
 
