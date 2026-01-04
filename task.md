@@ -6,7 +6,7 @@ Status codes: pending | in_progress | blocked | done
 |----------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------------|------------|--------|
 | TASK-000 | Repo standards                                           | Enforce SemVer and Conventional Commit style (commitlint/config), release/versioning workflow docs.   | Low        | done    |
 | TASK-001 | Realtime choice                                          | Decide Supabase Realtime vs Firebase; document rationale and PoC plan.                                | Medium     | done    |
-| TASK-002 | Bootstrap app                                            | Init Next.js (App Router, TS, Biome), Vercel config, baseline page.                                   | Medium     | in_progress |
+| TASK-002 | Bootstrap app                                            | Init Next.js (App Router, TS, Biome), Vercel config, baseline page.                                   | Medium     | done        |
 | TASK-003 | Supabase wiring                                          | Env template, client/server helpers, connectivity/health route.                                       | Medium     | pending |
 | TASK-004 | Domain schema                                            | Migrations for users (roles), garages, bids, bid session with default 30d; storage buckets for images.| Medium-High| pending |
 | TASK-005 | Auth flows                                               | Supabase auth + Google Identity; registration form (first, last, email, role required; phone/address optional). | High       | pending |
@@ -18,4 +18,5 @@ Status codes: pending | in_progress | blocked | done
 | TASK-011 | Metrics & observability                                  | Prometheus-compatible metrics endpoint, structured logging, tracing hooks, example dashboards.        | Medium     | pending |
 | TASK-012 | Mobile-first UX                                          | Responsive/mobile-first layouts with clear CTAs; accessibility pass.                                  | Medium     | pending |
 | TASK-013 | Testing & CI                                             | Unit tests domain, integration/API, smoke for analytics/metrics; CI pipeline green.                   | Medium     | pending |
+| TASK-014 | Design system setup                                      | Add Tailwind + shadcn/ui setup and cn helper baseline.                                                | Medium     | done        |
 

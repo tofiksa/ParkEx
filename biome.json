@@ -9,6 +9,17 @@
     "rules": {
       "recommended": true
     }
+  },
+  "files": {
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.mjs",
+      "**/*.cjs",
+      "**/*.md"
+    ]
   }
 }
 

@@ -5,6 +5,7 @@
 - Commits: Conventional Commits; reference task/bug IDs when relevant (e.g., `feat(TASK-002): ...` or `fix(BUG-001): ...`).
 - Lint/format: Biome (`npm run lint`, `npm run format`, `npm run check`).
 - Hooks: Husky runs commitlint on `commit-msg`.
+- Styling: TailwindCSS + shadcn/ui base config; `cn` helper in `lib/utils.ts`. Tailwind tokens/theme in `tailwind.config.ts`.
 
 ## Setup
 1) Install deps: `npm install`
