@@ -3,19 +3,18 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 let browserClient: SupabaseClient | null = null;
 
 function getSupabaseBrowserEnv() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) {
-    return null;
-  }
-  return { url, anonKey };
+	const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+	const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+	if (!url || !anonKey) {
+		return null;
+	}
+	return { url, anonKey };
 }
 
 export function getSupabaseBrowserClient() {
-  if (browserClient) return browserClient;
-  const env = getSupabaseBrowserEnv();
-  if (!env) return null;
-  browserClient = createClient(env.url, env.anonKey);
-  return browserClient;
+	if (browserClient) return browserClient;
+	const env = getSupabaseBrowserEnv();
+	if (!env) return null;
+	browserClient = createClient(env.url, env.anonKey);
+	return browserClient;
 }
-

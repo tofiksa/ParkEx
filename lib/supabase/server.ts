@@ -3,31 +3,30 @@ import type { CookieOptions, SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 function getSupabaseServerEnv() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) {
-    return null;
-  }
-  return { url, anonKey };
+	const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+	const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+	if (!url || !anonKey) {
+		return null;
+	}
+	return { url, anonKey };
 }
 
-export function getSupabaseServerClient(): SupabaseClient | null {
-  const env = getSupabaseServerEnv();
-  if (!env) return null;
-  const cookieStore = cookies();
+export async function getSupabaseServerClient(): Promise<SupabaseClient | null> {
+	const env = getSupabaseServerEnv();
+	if (!env) return null;
+	const cookieStore = await cookies();
 
-  return createServerClient(env.url, env.anonKey, {
-    cookies: {
-      get(name: string) {
-        return cookieStore.get(name)?.value;
-      },
-      set(name: string, value: string, options: CookieOptions) {
-        cookieStore.set({ name, value, ...options });
-      },
-      remove(name: string, options: CookieOptions) {
-        cookieStore.set({ name, value: "", ...options, maxAge: 0 });
-      }
-    }
-  });
+	return createServerClient(env.url, env.anonKey, {
+		cookies: {
+			get(name: string) {
+				return cookieStore.get(name)?.value;
+			},
+			set(name: string, value: string, options: CookieOptions) {
+				cookieStore.set({ name, value, ...options });
+			},
+			remove(name: string, options: CookieOptions) {
+				cookieStore.set({ name, value: "", ...options, maxAge: 0 });
+			},
+		},
+	});
 }
-

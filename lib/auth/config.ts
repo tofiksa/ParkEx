@@ -1,7 +1,6 @@
 export const authConfig = {
-  providers: ["google"],
-  appearance: {
-    theme: "dark"
-  }
+	providers: ["google"],
+	appearance: {
+		theme: "dark",
+	},
 };
-

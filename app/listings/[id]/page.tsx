@@ -4,7 +4,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { BidRealtime } from "./BidRealtime";
 
 export default async function ListingDetail({ params }: { params: { id: string } }) {
-	const supabase = getSupabaseServerClient();
+	const supabase = await getSupabaseServerClient();
 	if (!supabase) {
 		return (
 			<main

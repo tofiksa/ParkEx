@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function ListingsPage() {
-	const supabase = getSupabaseServerClient();
+	const supabase = await getSupabaseServerClient();
 	if (!supabase) {
 		return (
 			<main

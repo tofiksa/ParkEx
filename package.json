@@ -12,7 +12,8 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:db": "vitest run tests/db.integration.test.ts tests/db.crud.test.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
