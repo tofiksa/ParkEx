@@ -20,6 +20,7 @@
 - Server: `lib/supabase/server.ts` bruker `createServerClient` med cookies for App Router.
 - Health endpoint: `GET /api/health` returnerer `{ status: "ok", timestamp }`.
 - Domene/migrasjon: se `supabase/migrations/0001_domain.sql` og `docs/schema.md` (profiler, garasjer, bud, 30 dagers standard budfrist, RLS, storage bucket `garage-images`).
+- Auth: Supabase auth med Google aktivert via `Auth` komponenter (pages `/login`, `/register`); profil-opprettelse via server action `app/(auth)/register/actions.ts` til `profiles`.
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`
