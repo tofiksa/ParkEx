@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import { BidForm } from "./BidForm";
+import { BidRealtime } from "./BidRealtime";
 
 export default async function ListingDetail({
   params
@@ -26,9 +26,7 @@ export default async function ListingDetail({
     .order("amount", { ascending: false })
     .limit(5);
 
-  const topBid = bids?.[0];
-  const minRequired =
-    Math.max(Number(garage.start_price), topBid?.amount ?? 0) + 1;
+  const _topBid = bids?.[0];
 
   return (
     <main className="flex min-h-screen items-start justify-center bg-transparent px-6 py-16">
@@ -79,48 +77,11 @@ export default async function ListingDetail({
             </div>
           </div>
         </div>
-        <div className="rounded-2xl border border-border/70 bg-card/70 p-6 shadow-xl backdrop-blur">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-primary">Bud</p>
-              <h2 className="text-lg font-semibold text-foreground">Siste bud</h2>
-            </div>
-            <Link className="text-sm font-semibold text-primary hover:underline" href="/login">
-              Logg inn for å by
-            </Link>
-          </div>
-          {topBid ? (
-            <div className="mt-3">
-              <p className="text-2xl font-bold text-foreground">
-                {Number(topBid.amount).toLocaleString("no-NO")} kr
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {new Date(topBid.created_at).toLocaleString("no-NO")}
-              </p>
-            </div>
-          ) : (
-            <p className="mt-2 text-sm text-muted-foreground">Ingen bud ennå.</p>
-          )}
-          {bids && bids.length > 1 && (
-            <ul className="mt-4 space-y-1 text-sm text-muted-foreground">
-              {bids.map((b) => (
-                <li key={b.created_at}>
-                  {Number(b.amount).toLocaleString("no-NO")} kr —{" "}
-                  {new Date(b.created_at).toLocaleString("no-NO")}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="rounded-2xl border border-border/70 bg-card/70 p-6 shadow-xl backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Legg inn bud</p>
-          <p className="text-sm text-muted-foreground">
-            Minste gyldige bud: {minRequired.toLocaleString("no-NO")} kr
-          </p>
-          <div className="mt-3">
-            <BidForm garageId={garage.id} minRequired={minRequired} />
-          </div>
-        </div>
+        <BidRealtime
+          garageId={garage.id}
+          startPrice={Number(garage.start_price)}
+          initialBids={bids ?? []}
+        />
       </div>
     </main>
   );

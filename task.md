@@ -12,7 +12,7 @@ Status codes: pending | in_progress | blocked | done
 | TASK-005 | Auth flows                                               | Supabase auth + Google Identity; registration form (first, last, email, role required; phone/address optional). | High       | done        |
 | TASK-006 | Seller listing flow                                      | Create garage listing (size, address/location, images, price, bid end with default 30d), storage via signed URLs. | High       | done        |
 | TASK-007 | Buyer flows                                              | Browse listings, listing detail, join bidding; buyer profile showing active participations.           | Medium     | done        |
-| TASK-008 | Bidding service                                          | Command/validation, prevent late/low bids, return highest bid; API integration.                       | High       | in_progress |
+| TASK-008 | Bidding service                                          | Command/validation, prevent late/low bids, return highest bid; API integration.                       | High       | done        |
 | TASK-009 | Realtime bids                                            | Live updates on listing detail (≤1s lag) using chosen realtime provider.                              | High       | pending |
 | TASK-010 | Analytics & feedback                                     | Event taxonomy (auth, listing views, bids, CTA clicks), consent/opt-out, server-side collector, in-app feedback prompts, basic analytics dashboard. | Medium-High| pending |
 | TASK-011 | Metrics & observability                                  | Prometheus-compatible metrics endpoint, structured logging, tracing hooks, example dashboards.        | Medium     | pending |

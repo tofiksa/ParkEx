@@ -5,6 +5,7 @@
 - `garages`: garage listings with owner_id, title, description, size, address, start_price, `bid_end_at` default 30 days, images text[]. RLS: select all; insert/update owner.
 - `bids`: bids per garage with bidder_id, amount, created_at. RLS: select all; insert only if bidder = auth.uid and listing is still open (`bid_end_at > now()`).
 - App validation adds: no bidding on own listing; amount must be > max(start_price, current top).
+- Realtime: subscribe to postgres_changes on `bids` with filter `garage_id=eq.<id>` for live updates.
 - Storage bucket: `garage-images` (public) for listing assets.
 
 ## Defaults
