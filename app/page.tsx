@@ -1,6 +1,9 @@
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-transparent px-6 py-16 md:py-20">
+    <main
+      id="main"
+      className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+    >
       <section className="grid w-full max-w-5xl grid-cols-1 items-center gap-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <p className="text-xs uppercase tracking-[0.18em] text-primary">

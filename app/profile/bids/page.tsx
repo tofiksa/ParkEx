@@ -10,7 +10,7 @@ export default async function ProfileBidsPage() {
 
   if (userErr || !user) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6 py-16">
+      <main className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 md:py-16">
         <div className="rounded-xl border border-border/70 bg-card/70 p-6 text-center shadow-lg">
           <p className="text-sm text-muted-foreground">Logg inn for å se budene dine.</p>
           <div className="mt-3">
@@ -38,7 +38,10 @@ export default async function ProfileBidsPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-start justify-center bg-transparent px-6 py-16">
+    <main
+      id="main"
+      className="flex min-h-screen items-start justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+    >
       <div className="w-full max-w-4xl space-y-4">
         <div className="flex items-center justify-between">
           <div>

@@ -25,7 +25,10 @@ export default async function ListingDetail({ params }: { params: { id: string }
 	const _topBid = bids?.[0];
 
 	return (
-		<main className="flex min-h-screen items-start justify-center bg-transparent px-6 py-16">
+		<main
+			id="main"
+			className="flex min-h-screen items-start justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+		>
 			<div className="w-full max-w-4xl space-y-6">
 				<div className="flex items-center justify-between">
 					<div>

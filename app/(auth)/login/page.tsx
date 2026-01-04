@@ -4,10 +4,13 @@ import Link from "next/link";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
-	const supabase = getSupabaseBrowserClient();
+  const supabase = getSupabaseBrowserClient();
 
-	return (
-		<main className="flex min-h-screen items-center justify-center bg-transparent px-6 py-16">
+  return (
+    <main
+      id="main"
+      className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+    >
 			<div className="w-full max-w-3xl rounded-2xl border border-border/60 bg-card/70 p-8 shadow-2xl backdrop-blur">
 				<div className="mb-6 flex items-center justify-between">
 					<div>
