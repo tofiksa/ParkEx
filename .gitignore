@@ -1,0 +1,16 @@
+.cursor
+node_modules
+.next
+.turbo
+.vercel
+out
+dist
+build
+.DS_Store
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*
+pnp.*
+*.tsbuildinfo
