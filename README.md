@@ -7,6 +7,7 @@
 - Hooks: Husky runs commitlint on `commit-msg`.
 - Styling: TailwindCSS + shadcn/ui base config; `cn` helper in `lib/utils.ts`. Tailwind tokens/theme in `tailwind.config.ts`.
 - CI/CD: GitHub Actions for lint+build (`.github/workflows/ci.yml`) and release/versioning via Release Please (`.github/workflows/release-please.yml`).
+- Storage: bucket `garage-images` for uploads (signed URL endpoint `/api/storage/garage-upload-url`).
 
 ## Setup
 1) Install deps: `npm install`
@@ -21,6 +22,7 @@
 - Health endpoint: `GET /api/health` returnerer `{ status: "ok", timestamp }`.
 - Domene/migrasjon: se `supabase/migrations/0001_domain.sql` og `docs/schema.md` (profiler, garasjer, bud, 30 dagers standard budfrist, RLS, storage bucket `garage-images`).
 - Auth: Supabase auth med Google aktivert via `Auth` komponenter (pages `/login`, `/register`); profil-opprettelse via server action `app/(auth)/register/actions.ts` til `profiles`.
+- Listings: Seller form på `/sell/new` (server action), API for opprettelse `/api/garages`; signed upload URL via `/api/storage/garage-upload-url`.
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`
