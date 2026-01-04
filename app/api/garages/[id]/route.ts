@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { incCounter } from "@/lib/metrics";
 
 export async function GET(
   _request: Request,
@@ -13,6 +14,7 @@ export async function GET(
     .single();
 
   if (error) {
+    incCounter("api_requests_total", { route: "garage_detail", status: 404 });
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
 
@@ -24,6 +26,7 @@ export async function GET(
     .limit(1)
     .maybeSingle();
 
+  incCounter("api_requests_total", { route: "garage_detail", status: 200 });
   return NextResponse.json({ garage, topBid });
 }
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { incCounter } from "@/lib/metrics";
 
 type Payload = {
   garageId: string;
@@ -10,11 +11,13 @@ export async function POST(request: Request) {
   const supabase = getSupabaseServerClient();
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
   if (userErr || !userRes?.user) {
+    incCounter("api_requests_total", { route: "bids", status: 401 });
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = (await request.json()) as Payload;
   if (!body?.garageId || typeof body.amount !== "number" || Number.isNaN(body.amount)) {
+    incCounter("api_requests_total", { route: "bids", status: 400 });
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
@@ -25,15 +28,18 @@ export async function POST(request: Request) {
     .single();
 
   if (garageErr || !garage) {
+    incCounter("api_requests_total", { route: "bids", status: 404 });
     return NextResponse.json({ error: "Garage not found" }, { status: 404 });
   }
 
   if (garage.owner_id === userRes.user.id) {
+    incCounter("api_requests_total", { route: "bids", status: 400 });
     return NextResponse.json({ error: "Cannot bid on own listing" }, { status: 400 });
   }
 
   const now = new Date();
   if (new Date(garage.bid_end_at) <= now) {
+    incCounter("api_requests_total", { route: "bids", status: 400 });
     return NextResponse.json({ error: "Bidding closed" }, { status: 400 });
   }
 
@@ -47,6 +53,7 @@ export async function POST(request: Request) {
 
   const minRequired = Math.max(Number(garage.start_price), topBid?.amount ?? 0) + 1;
   if (body.amount < minRequired) {
+    incCounter("api_requests_total", { route: "bids", status: 400 });
     return NextResponse.json(
       { error: `Bid too low. Minimum required: ${minRequired}` },
       { status: 400 }
@@ -60,9 +67,11 @@ export async function POST(request: Request) {
   });
 
   if (insertErr) {
+    incCounter("api_requests_total", { route: "bids", status: 500 });
     return NextResponse.json({ error: insertErr.message }, { status: 500 });
   }
 
+  incCounter("api_requests_total", { route: "bids", status: 200 });
   return NextResponse.json({ ok: true });
 }
 

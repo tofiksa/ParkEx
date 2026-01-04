@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { incCounter } from "@/lib/metrics";
 
 type EventPayload = {
   name: string;
@@ -13,6 +14,7 @@ export async function POST(request: Request) {
   const body = (await request.json()) as EventPayload;
 
   if (!body?.name) {
+    incCounter("api_requests_total", { route: "analytics", status: 400 });
     return NextResponse.json({ error: "Missing event name" }, { status: 400 });
   }
 
@@ -29,9 +31,11 @@ export async function POST(request: Request) {
   });
 
   if (error) {
+    incCounter("api_requests_total", { route: "analytics", status: 500 });
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  incCounter("api_requests_total", { route: "analytics", status: 200 });
   return NextResponse.json({ ok: true });
 }
 
