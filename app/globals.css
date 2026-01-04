@@ -1,0 +1,179 @@
+:root {
+  color-scheme: light;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #0b1021;
+  color: #f6f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  background: radial-gradient(circle at 20% 20%, #142150, #0b1021 40%),
+    radial-gradient(circle at 80% 0%, #1b2f66, #0b1021 35%);
+}
+
+.hero {
+  display: grid;
+  gap: 32px;
+  width: min(1100px, 100%);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: center;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #9fb4ff;
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.1;
+}
+
+.lede {
+  margin: 0;
+  font-size: 16px;
+  color: #d5ddff;
+  max-width: 560px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.button--primary {
+  background: linear-gradient(135deg, #4b7bff, #7b9bff);
+  color: #0b1021;
+  box-shadow: 0 10px 30px rgba(82, 122, 255, 0.35);
+}
+
+.button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 34px rgba(82, 122, 255, 0.45);
+}
+
+.button--ghost {
+  border: 1px solid #2f3c66;
+  color: #e8edff;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.button--full {
+  width: 100%;
+  background: #4b7bff;
+  color: #0b1021;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(75, 123, 255, 0.35);
+}
+
+.hero__card {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card {
+  background: #0f152d;
+  border: 1px solid #243159;
+  border-radius: 16px;
+  padding: 20px;
+  width: min(360px, 100%);
+  box-shadow: 0 24px 60px rgba(7, 12, 28, 0.65);
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  margin: 0;
+  color: #9fb4ff;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+h3 {
+  margin: 4px 0 0;
+  font-size: 20px;
+}
+
+.pill {
+  background: rgba(75, 123, 255, 0.15);
+  color: #aaccff;
+  border: 1px solid rgba(75, 123, 255, 0.35);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.card__body {
+  margin: 16px 0;
+}
+
+.muted {
+  margin: 0;
+  color: #a1a8c3;
+  font-size: 14px;
+}
+
+.price {
+  margin: 4px 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.card__footer {
+  margin-top: 12px;
+}
+
+@media (max-width: 640px) {
+  main.page {
+    padding: 48px 16px;
+  }
+
+  .hero__card {
+    justify-content: flex-start;
+  }
+}
+

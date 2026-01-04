@@ -9,6 +9,8 @@
 ## Setup
 1) Install deps: `npm install`
 2) Enable hooks: `npm run prepare`
+3) Utvikling: `npm run dev`
+4) Bygg: `npm run build` og start: `npm run start`
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`
