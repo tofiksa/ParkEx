@@ -13,6 +13,12 @@
 2) Enable hooks: `npm run prepare`
 3) Utvikling: `npm run dev`
 4) Bygg: `npm run build` og start: `npm run start`
+5) Supabase env: kopier `env.example` til `.env.local` og fyll `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (service key kun på server).
+
+## Supabase wiring
+- Klient: `lib/supabase/client.ts` bruker `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Server: `lib/supabase/server.ts` bruker `createServerClient` med cookies for App Router.
+- Health endpoint: `GET /api/health` returnerer `{ status: "ok", timestamp }`.
 
 ## Commit message examples
 - `feat(TASK-006): add seller listing form`
