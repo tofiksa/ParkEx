@@ -6,20 +6,21 @@ import { upsertProfile } from "./actions";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
-  const supabase = getSupabaseBrowserClient();
+	const supabase = getSupabaseBrowserClient();
 
-  if (!supabase) {
-    return (
-      <main
-        id="main"
-        className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
-      >
-        <p className="text-sm text-red-400">
-          Mangler Supabase klient-konfig. Sett NEXT_PUBLIC_SUPABASE_URL og NEXT_PUBLIC_SUPABASE_ANON_KEY.
-        </p>
-      </main>
-    );
-  }
+	if (!supabase) {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+			>
+				<p className="text-sm text-red-400">
+					Mangler Supabase klient-konfig. Sett NEXT_PUBLIC_SUPABASE_URL og
+					NEXT_PUBLIC_SUPABASE_ANON_KEY.
+				</p>
+			</main>
+		);
+	}
 
 	return (
 		<main
