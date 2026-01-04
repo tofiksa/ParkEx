@@ -7,6 +7,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const supabase = getSupabaseServerClient();
+  if (!supabase) {
+    incCounter("api_requests_total", { route: "garage_detail", status: 500 });
+    return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
+  }
   const { data: garage, error } = await supabase
     .from("garages")
     .select("*")

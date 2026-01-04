@@ -10,6 +10,10 @@ type FeedbackPayload = {
 
 export async function POST(request: Request) {
   const supabase = getSupabaseServerClient();
+  if (!supabase) {
+    incCounter("api_requests_total", { route: "feedback", status: 500 });
+    return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
+  }
   const body = (await request.json()) as FeedbackPayload;
 
   if (!body?.message) {

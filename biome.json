@@ -19,6 +19,13 @@
       "**/*.mjs",
       "**/*.cjs",
       "**/*.md"
+    ],
+    "experimentalScannerIgnores": [
+      ".next/**",
+      "node_modules/**",
+      "coverage/**",
+      "dist/**",
+      "build/**"
     ]
   }
 }

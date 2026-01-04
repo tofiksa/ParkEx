@@ -6,15 +6,16 @@ function getSupabaseBrowserEnv() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !anonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    return null;
   }
   return { url, anonKey };
 }
 
 export function getSupabaseBrowserClient() {
   if (browserClient) return browserClient;
-  const { url, anonKey } = getSupabaseBrowserEnv();
-  browserClient = createClient(url, anonKey);
+  const env = getSupabaseBrowserEnv();
+  if (!env) return null;
+  browserClient = createClient(env.url, env.anonKey);
   return browserClient;
 }
 

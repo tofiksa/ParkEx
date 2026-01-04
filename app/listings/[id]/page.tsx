@@ -5,6 +5,18 @@ import { BidRealtime } from "./BidRealtime";
 
 export default async function ListingDetail({ params }: { params: { id: string } }) {
 	const supabase = getSupabaseServerClient();
+	if (!supabase) {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 md:py-16"
+			>
+				<p className="text-sm text-red-400">
+					Mangler Supabase konfig (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY).
+				</p>
+			</main>
+		);
+	}
 	const { data: garage, error } = await supabase
 		.from("garages")
 		.select("*")

@@ -14,6 +14,10 @@ type Payload = {
 
 export async function POST(request: Request) {
   const supabase = getSupabaseServerClient();
+  if (!supabase) {
+    incCounter("api_requests_total", { route: "garages_post", status: 500 });
+    return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
+  }
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
 
   if (userErr || !userRes?.user) {
@@ -55,6 +59,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   const supabase = getSupabaseServerClient();
+  if (!supabase) {
+    incCounter("api_requests_total", { route: "garages_get", status: 500 });
+    return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
+  }
   const { searchParams } = new URL(request.url);
   const limit = Number(searchParams.get("limit")) || 20;
 

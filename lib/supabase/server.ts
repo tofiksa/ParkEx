@@ -6,16 +6,17 @@ function getSupabaseServerEnv() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !anonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    return null;
   }
   return { url, anonKey };
 }
 
-export function getSupabaseServerClient(): SupabaseClient {
-  const { url, anonKey } = getSupabaseServerEnv();
+export function getSupabaseServerClient(): SupabaseClient | null {
+  const env = getSupabaseServerEnv();
+  if (!env) return null;
   const cookieStore = cookies();
 
-  return createServerClient(url, anonKey, {
+  return createServerClient(env.url, env.anonKey, {
     cookies: {
       get(name: string) {
         return cookieStore.get(name)?.value;
