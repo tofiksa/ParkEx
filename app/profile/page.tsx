@@ -438,13 +438,22 @@ export default function ProfilePage() {
 						<p className="mt-1 text-xs text-muted-foreground">Se alle budene du har lagt inn</p>
 					</Link>
 					{profile?.role === "seller" && (
-						<Link
-							href="/sell/new"
-							className="rounded-xl border border-border/70 bg-card/70 p-4 shadow-md backdrop-blur transition hover:border-border hover:shadow-lg"
-						>
-							<p className="text-sm font-semibold text-foreground">Opprett annonse</p>
-							<p className="mt-1 text-xs text-muted-foreground">Legg ut en ny garasjeannonse</p>
-						</Link>
+						<>
+							<Link
+								href="/profile/listings"
+								className="rounded-xl border border-border/70 bg-card/70 p-4 shadow-md backdrop-blur transition hover:border-border hover:shadow-lg"
+							>
+								<p className="text-sm font-semibold text-foreground">Mine annonser</p>
+								<p className="mt-1 text-xs text-muted-foreground">Se dine garasjer og høyeste bud</p>
+							</Link>
+							<Link
+								href="/sell/new"
+								className="rounded-xl border border-border/70 bg-card/70 p-4 shadow-md backdrop-blur transition hover:border-border hover:shadow-lg"
+							>
+								<p className="text-sm font-semibold text-foreground">Opprett annonse</p>
+								<p className="mt-1 text-xs text-muted-foreground">Legg ut en ny garasjeannonse</p>
+							</Link>
+						</>
 					)}
 				</div>
 			</div>
