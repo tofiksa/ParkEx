@@ -1,12 +1,36 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { upsertProfile } from "./actions";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
 	const supabase = getSupabaseBrowserClient();
+	const router = useRouter();
+	const hasRedirected = useRef(false);
+
+	useEffect(() => {
+		if (!supabase || hasRedirected.current) return;
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange(async (event, session) => {
+			if (event === "SIGNED_IN" && session?.user && !hasRedirected.current) {
+				hasRedirected.current = true;
+				router.refresh();
+				// Redirect to profile to complete registration
+				setTimeout(() => {
+					router.push("/profile");
+				}, 500);
+			}
+		});
+
+		return () => {
+			subscription?.unsubscribe();
+		};
+	}, [supabase, router]);
 
 	if (!supabase) {
 		return (
@@ -33,7 +57,7 @@ export default function RegisterPage() {
 						<p className="text-xs uppercase tracking-[0.18em] text-primary">Registrering</p>
 						<h1 className="text-2xl font-semibold text-foreground">Opprett konto</h1>
 						<p className="text-sm text-muted-foreground">
-							Velg kjøper eller selger. Google-innlogging støttes.
+							Opprett konto med e-post eller Google. Du fullfører profilen etterpå.
 						</p>
 					</div>
 					<Link className="text-sm font-semibold text-primary hover:underline" href="/login">
@@ -42,87 +66,42 @@ export default function RegisterPage() {
 				</div>
 				<Auth
 					supabaseClient={supabase}
-					appearance={{ theme: ThemeSupa }}
+					appearance={{
+						theme: ThemeSupa,
+						variables: {
+							default: {
+								colors: {
+									brand: "hsl(225 100% 68%)",
+									brandAccent: "hsl(225 100% 75%)",
+								},
+							},
+						},
+						style: {
+							input: {
+								color: "hsl(226 45% 96%)",
+								backgroundColor: "hsl(230 50% 8%)",
+							},
+							label: {
+								color: "hsl(226 45% 96%)",
+							},
+							message: {
+								color: "hsl(226 45% 96%)",
+							},
+							anchor: {
+								color: "hsl(225 100% 68%)",
+							},
+						},
+					}}
 					providers={["google"]}
 					onlyThirdPartyProviders={false}
-					redirectTo="/"
+					view="sign_up"
+					redirectTo={
+						typeof window !== "undefined" ? `${window.location.origin}/profile` : "/profile"
+					}
 				/>
-				<div className="mt-6">
-					<form action={upsertProfile} className="grid gap-4">
-						<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-							<label className="grid gap-1 text-sm text-muted-foreground">
-								Fornavn*
-								<input
-									required
-									name="firstName"
-									className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-									placeholder="Ola"
-								/>
-							</label>
-							<label className="grid gap-1 text-sm text-muted-foreground">
-								Etternavn*
-								<input
-									required
-									name="lastName"
-									className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-									placeholder="Nordmann"
-								/>
-							</label>
-						</div>
-						<label className="grid gap-1 text-sm text-muted-foreground">
-							E-post*
-							<input
-								required
-								type="email"
-								name="email"
-								className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-								placeholder="ola@example.com"
-							/>
-						</label>
-						<label className="grid gap-1 text-sm text-muted-foreground">
-							Rolle*
-							<select
-								required
-								name="role"
-								className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-								defaultValue=""
-							>
-								<option value="" disabled>
-									Velg rolle
-								</option>
-								<option value="buyer">Kjøper</option>
-								<option value="seller">Selger</option>
-							</select>
-						</label>
-						<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-							<label className="grid gap-1 text-sm text-muted-foreground">
-								Telefon (valgfritt)
-								<input
-									name="phone"
-									className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-									placeholder="+47 999 99 999"
-								/>
-							</label>
-							<label className="grid gap-1 text-sm text-muted-foreground">
-								Adresse (valgfritt)
-								<input
-									name="address"
-									className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
-									placeholder="Storgata 1, 0101 Oslo"
-								/>
-							</label>
-						</div>
-						<p className="text-xs text-muted-foreground">
-							Etter registrering lagres profilfelt i `profiles` med valgt rolle.
-						</p>
-						<button
-							type="submit"
-							className="rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:translate-y-[-1px] hover:shadow-xl"
-						>
-							Lagre profil
-						</button>
-					</form>
-				</div>
+				<p className="mt-4 text-center text-xs text-muted-foreground">
+					Etter registrering blir du sendt til profilsiden for å fullføre oppsettet.
+				</p>
 			</div>
 		</main>
 	);
