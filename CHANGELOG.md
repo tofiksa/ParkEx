@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/tofiksa/ParkEx/compare/v1.0.0...v1.1.0) (2026-01-10)
+
+
+### Features
+
+* **auth:** add inactivity timeout with session guard ([751be89](https://github.com/tofiksa/ParkEx/commit/751be89a1d84256be46b1855efdc968eb33bc199))
+* **homepage:** add realtime bid carousel ([ff2c413](https://github.com/tofiksa/ParkEx/commit/ff2c413e482d8ba594c71040f4560fe521908eae))
+* **TASK-006:** add seller dashboard with listings overview and winner contact ([0d02d63](https://github.com/tofiksa/ParkEx/commit/0d02d63bc8148c7577117cecb29e1a37e7d17129))
+* **TASK-007:** improve buyer bid overview with visual status indicators ([5989b03](https://github.com/tofiksa/ParkEx/commit/5989b03d39715123d7ee9c7d4d8f013b1dd861af))
+
+
+### Bug Fixes
+
+* **auth:** migrate to @supabase/ssr for proper cookie-based auth ([3138f29](https://github.com/tofiksa/ParkEx/commit/3138f290b088b9f91c0726fd5daea7efcb291113))
+* **lint:** resolve biome lint warnings ([d09bc2d](https://github.com/tofiksa/ParkEx/commit/d09bc2dacd68cbe6b497eb62876931a507f151c1))
+
 ## 1.0.0 (2026-01-04)
 
 
