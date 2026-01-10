@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { BidRealtime } from "./BidRealtime";
 
-export default async function ListingDetail({ params }: { params: { id: string } }) {
+export default async function ListingDetail({ params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params;
+	
 	const supabase = await getSupabaseServerClient();
 	if (!supabase) {
 		return (
@@ -20,7 +22,7 @@ export default async function ListingDetail({ params }: { params: { id: string }
 	const { data: garage, error } = await supabase
 		.from("garages")
 		.select("*")
-		.eq("id", params.id)
+		.eq("id", id)
 		.single();
 
 	if (error || !garage) {
@@ -30,7 +32,7 @@ export default async function ListingDetail({ params }: { params: { id: string }
 	const { data: bids } = await supabase
 		.from("bids")
 		.select("amount, created_at, bidder_id")
-		.eq("garage_id", params.id)
+		.eq("garage_id", id)
 		.order("amount", { ascending: false })
 		.limit(5);
 

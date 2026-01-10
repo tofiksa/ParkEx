@@ -1,5 +1,5 @@
-import { createServerClient } from "@supabase/auth-helpers-nextjs";
-import type { CookieOptions, SupabaseClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 function getSupabaseServerEnv() {
@@ -18,14 +18,18 @@ export async function getSupabaseServerClient(): Promise<SupabaseClient | null> 
 
 	return createServerClient(env.url, env.anonKey, {
 		cookies: {
-			get(name: string) {
-				return cookieStore.get(name)?.value;
+			getAll() {
+				return cookieStore.getAll();
 			},
-			set(name: string, value: string, options: CookieOptions) {
-				cookieStore.set({ name, value, ...options });
-			},
-			remove(name: string, options: CookieOptions) {
-				cookieStore.set({ name, value: "", ...options, maxAge: 0 });
+			setAll(cookiesToSet) {
+				try {
+					for (const { name, value, options } of cookiesToSet) {
+						cookieStore.set(name, value, options);
+					}
+				} catch {
+					// The `setAll` method was called from a Server Component.
+					// This can be ignored if you have middleware refreshing sessions.
+				}
 			},
 		},
 	});

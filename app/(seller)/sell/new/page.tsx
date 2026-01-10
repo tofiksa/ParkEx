@@ -1,7 +1,170 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { createGarage } from "./actions";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+
+type Profile = {
+	role?: "buyer" | "seller";
+};
 
 export default function NewListingPage() {
+	const supabase = getSupabaseBrowserClient();
+	const router = useRouter();
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+	const [profile, setProfile] = useState<Profile | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [submitting, setSubmitting] = useState(false);
+
+	useEffect(() => {
+		if (!supabase) {
+			setIsAuthenticated(false);
+			setLoading(false);
+			return;
+		}
+
+		const checkAuth = async () => {
+			const {
+				data: { user },
+				error: userErr,
+			} = await supabase.auth.getUser();
+
+			if (userErr || !user) {
+				setIsAuthenticated(false);
+				setLoading(false);
+				router.push("/login?redirect=/sell/new");
+				return;
+			}
+			
+			setIsAuthenticated(true);
+			
+			// Fetch profile to check role
+			const { data: profileData } = await supabase
+				.from("profiles")
+				.select("role")
+				.eq("id", user.id)
+				.maybeSingle();
+			
+			setProfile(profileData);
+			setLoading(false);
+		};
+
+		checkAuth();
+
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			if (!session?.user) {
+				setIsAuthenticated(false);
+				router.push("/login?redirect=/sell/new");
+			} else {
+				setIsAuthenticated(true);
+			}
+		});
+
+		return () => {
+			subscription?.unsubscribe();
+		};
+	}, [supabase, router]);
+	
+	// Handle form submission with error display
+	const handleSubmit = async (formData: FormData) => {
+		setError(null);
+		setSubmitting(true);
+		
+		try {
+			const result = await createGarage(formData);
+			// If we get here without redirect, there was an error
+			if (result && !result.ok) {
+				setError(result.error || "Noe gikk galt");
+			}
+		} catch (err) {
+			// Redirect throws an error in Next.js, which is expected behavior
+			// Only show error if it's not a redirect
+			if (err instanceof Error && !err.message.includes("NEXT_REDIRECT")) {
+				setError("En uventet feil oppstod");
+				console.error("Form submission error:", err);
+			}
+		} finally {
+			setSubmitting(false);
+		}
+	};
+
+	if (!supabase) {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+			>
+				<p className="text-sm text-red-400">
+					Mangler Supabase konfig (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY).
+				</p>
+			</main>
+		);
+	}
+
+	if (loading || isAuthenticated === null) {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+			>
+				<div className="text-sm text-muted-foreground">Sjekker autentisering...</div>
+			</main>
+		);
+	}
+
+	if (isAuthenticated === false) {
+		return null; // Redirect is happening
+	}
+	
+	// Check if profile is incomplete or not a seller
+	if (!profile) {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+			>
+				<div className="w-full max-w-md rounded-2xl border border-border/60 bg-card/70 p-8 shadow-2xl backdrop-blur text-center">
+					<p className="text-lg font-semibold text-foreground mb-2">Profil ikke fullført</p>
+					<p className="text-sm text-muted-foreground mb-4">
+						Du må fullføre profilen din og velge rollen "Selger" før du kan opprette annonser.
+					</p>
+					<Link
+						href="/profile"
+						className="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+					>
+						Gå til profil
+					</Link>
+				</div>
+			</main>
+		);
+	}
+	
+	if (profile.role !== "seller") {
+		return (
+			<main
+				id="main"
+				className="flex min-h-screen items-center justify-center bg-transparent px-4 py-12 sm:px-6 md:py-16"
+			>
+				<div className="w-full max-w-md rounded-2xl border border-border/60 bg-card/70 p-8 shadow-2xl backdrop-blur text-center">
+					<p className="text-lg font-semibold text-foreground mb-2">Kun for selgere</p>
+					<p className="text-sm text-muted-foreground mb-4">
+						Du må ha rollen "Selger" for å opprette annonser. Endre rollen i profilen din.
+					</p>
+					<Link
+						href="/profile"
+						className="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+					>
+						Gå til profil
+					</Link>
+				</div>
+			</main>
+		);
+	}
+	
 	return (
 		<main
 			id="main"
@@ -20,7 +183,14 @@ export default function NewListingPage() {
 						Til annonser
 					</Link>
 				</div>
-				<form action={createGarage} className="grid gap-4">
+				
+				{error && (
+					<div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+						{error}
+					</div>
+				)}
+				
+				<form action={handleSubmit} className="grid gap-4">
 					<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
 						<label className="grid gap-1 text-sm text-muted-foreground">
 							Tittel*
@@ -96,9 +266,10 @@ export default function NewListingPage() {
 					</p>
 					<button
 						type="submit"
-						className="rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:translate-y-[-1px] hover:shadow-xl"
+						disabled={submitting}
+						className="rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:translate-y-[-1px] hover:shadow-xl disabled:opacity-50"
 					>
-						Opprett annonse
+						{submitting ? "Oppretter..." : "Opprett annonse"}
 					</button>
 				</form>
 			</div>

@@ -3,6 +3,9 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
 	const supabase = await getSupabaseServerClient();
+	if (!supabase) {
+		return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
+	}
 	const body = await request.json();
 	const {
 		firstName,
