@@ -292,7 +292,7 @@ function GarageListingCard({ garage }: { garage: GarageWithBidInfo }) {
 					<p className="text-xs text-muted-foreground">Høyeste bud</p>
 					<p className={`text-sm font-semibold ${hasHighestBid ? "text-green-400" : "text-muted-foreground"}`}>
 						{hasHighestBid
-							? `${garage.highestBid!.amount.toLocaleString("no-NO")} kr`
+							? `${garage.highestBid?.amount.toLocaleString("no-NO")} kr`
 							: "Ingen bud"}
 					</p>
 				</div>
@@ -319,25 +319,25 @@ function GarageListingCard({ garage }: { garage: GarageWithBidInfo }) {
 					<div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
 						<div>
 							<p className="text-xs text-muted-foreground">Navn</p>
-							<p className="text-sm font-semibold text-foreground">{garage.highestBid!.bidderName}</p>
+							<p className="text-sm font-semibold text-foreground">{garage.highestBid?.bidderName}</p>
 						</div>
 						<div>
 							<p className="text-xs text-muted-foreground">E-post</p>
 							<a
-								href={`mailto:${garage.highestBid!.bidderEmail}`}
+								href={`mailto:${garage.highestBid?.bidderEmail}`}
 								className="text-sm font-semibold text-primary hover:underline"
 							>
-								{garage.highestBid!.bidderEmail}
+								{garage.highestBid?.bidderEmail}
 							</a>
 						</div>
-						{garage.highestBid!.bidderPhone && (
+						{garage.highestBid?.bidderPhone && (
 							<div>
 								<p className="text-xs text-muted-foreground">Telefon</p>
 								<a
-									href={`tel:${garage.highestBid!.bidderPhone}`}
+									href={`tel:${garage.highestBid?.bidderPhone}`}
 									className="text-sm font-semibold text-primary hover:underline"
 								>
-									{garage.highestBid!.bidderPhone}
+									{garage.highestBid?.bidderPhone}
 								</a>
 							</div>
 						)}

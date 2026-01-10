@@ -208,6 +208,7 @@ export function RealtimeBidCarousel({
 					<div className="flex gap-1">
 						{garages.slice(0, 5).map((g, i) => (
 							<button
+								type="button"
 								key={g.id}
 								onClick={() => {
 									setIsAnimating(true);

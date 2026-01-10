@@ -141,9 +141,8 @@ export default async function ListingsPage({
 				}
 				return 0;
 			}
-			case "newest":
 			default:
-				return 0; // Already sorted by created_at desc from DB
+				return 0; // "newest" - already sorted by created_at desc from DB
 		}
 	});
 
