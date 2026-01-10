@@ -1,4 +1,81 @@
-export default function Home() {
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { RealtimeBidCarousel } from "./components/RealtimeBidCarousel";
+
+type GarageWithBid = {
+	id: string;
+	title: string;
+	address: string;
+	startPrice: number;
+	bidEndAt: string;
+	highestBid: number | null;
+	lastBidAt: string | null;
+};
+
+export default async function Home() {
+	const supabase = await getSupabaseServerClient();
+
+	let initialGarages: GarageWithBid[] = [];
+
+	if (supabase) {
+		// Fetch active garages
+		const { data: garages } = await supabase
+			.from("garages")
+			.select("id, title, address, start_price, bid_end_at")
+			.gt("bid_end_at", new Date().toISOString())
+			.order("created_at", { ascending: false })
+			.limit(10);
+
+		if (garages?.length) {
+			const garageIds = garages.map((g) => g.id);
+
+			// Fetch highest bids and latest bid times
+			const { data: bids } = await supabase
+				.from("bids")
+				.select("garage_id, amount, created_at")
+				.in("garage_id", garageIds)
+				.order("amount", { ascending: false });
+
+			// Build bid info map
+			const bidInfoMap = new Map<string, { highest: number; lastBidAt: string }>();
+			for (const bid of bids ?? []) {
+				const existing = bidInfoMap.get(bid.garage_id);
+				if (!existing) {
+					bidInfoMap.set(bid.garage_id, {
+						highest: Number(bid.amount),
+						lastBidAt: bid.created_at,
+					});
+				} else {
+					// Update lastBidAt if this bid is more recent
+					if (new Date(bid.created_at) > new Date(existing.lastBidAt)) {
+						existing.lastBidAt = bid.created_at;
+					}
+				}
+			}
+
+			// Build garage list with bid info, sorted by most recent bid first
+			initialGarages = garages
+				.map((g) => {
+					const bidInfo = bidInfoMap.get(g.id);
+					return {
+						id: g.id,
+						title: g.title,
+						address: g.address,
+						startPrice: Number(g.start_price),
+						bidEndAt: g.bid_end_at,
+						highestBid: bidInfo?.highest ?? null,
+						lastBidAt: bidInfo?.lastBidAt ?? null,
+					};
+				})
+				.sort((a, b) => {
+					// Sort by most recent bid first, then by garages without bids
+					if (!a.lastBidAt && !b.lastBidAt) return 0;
+					if (!a.lastBidAt) return 1;
+					if (!b.lastBidAt) return -1;
+					return new Date(b.lastBidAt).getTime() - new Date(a.lastBidAt).getTime();
+				});
+		}
+	}
+
 	return (
 		<main
 			id="main"
@@ -29,31 +106,16 @@ export default function Home() {
 						>
 							Se alle garasjer
 						</a>
+						<a
+							className="rounded-lg border-2 border-primary/50 bg-primary/10 px-4 py-3 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary/20"
+							href="/register"
+						>
+							Registrer deg
+						</a>
 					</div>
 				</div>
 				<div className="flex justify-end">
-					<div className="card w-full max-w-md rounded-2xl border border-border/80 bg-gradient-to-br from-card to-card/80 p-6 shadow-[0_24px_80px_rgba(7,12,28,0.55)] backdrop-blur">
-						<div className="mb-4 flex items-center justify-between">
-							<div>
-								<p className="text-xs uppercase tracking-wide text-primary">Budrunde</p>
-								<h3 className="mt-1 text-xl font-semibold text-foreground">Sentrum P2</h3>
-							</div>
-							<span className="pill">Pågår</span>
-						</div>
-						<div className="space-y-2">
-							<p className="text-sm text-muted-foreground">Siste bud</p>
-							<p className="text-3xl font-bold text-foreground">1 250 000 kr</p>
-							<p className="text-sm text-muted-foreground">Budfrist: 12. feb 2026, 18:00</p>
-						</div>
-						<div className="mt-6">
-							<a
-								className="block w-full rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground shadow-lg transition hover:translate-y-[-1px] hover:shadow-xl"
-								href="/listings/sentrum-p2"
-							>
-								Legg inn bud
-							</a>
-						</div>
-					</div>
+					<RealtimeBidCarousel initialGarages={initialGarages} />
 				</div>
 			</section>
 		</main>
