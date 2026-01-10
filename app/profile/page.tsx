@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 // User type with metadata from Supabase auth
@@ -72,6 +72,7 @@ export default function ProfilePage() {
 	const [user, setUser] = useState<AuthUser | null>(null);
 	const [profile, setProfile] = useState<Profile | null>(null);
 	const [loading, setLoading] = useState(true);
+	const isLoggingOutRef = useRef(false);
 	
 	// Form state for profile completion
 	const [formData, setFormData] = useState({
@@ -102,7 +103,10 @@ export default function ProfilePage() {
 			if (userErr || !currentUser) {
 				setIsAuthenticated(false);
 				setLoading(false);
-				router.push("/login?redirect=/profile");
+				// Only redirect if not intentionally logging out
+				if (!isLoggingOutRef.current) {
+					router.push("/login?redirect=/profile");
+				}
 				return;
 			}
 
@@ -140,6 +144,11 @@ export default function ProfilePage() {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, session) => {
+			// Don't redirect if we're intentionally logging out
+			if (isLoggingOutRef.current) {
+				return;
+			}
+			
 			if (!session?.user) {
 				setIsAuthenticated(false);
 				router.push("/login?redirect=/profile");
@@ -253,18 +262,41 @@ export default function ProfilePage() {
 							type="button"
 							onClick={async () => {
 								if (!supabase) return;
+								
+								// Set flag to prevent redirect conflict
+								isLoggingOutRef.current = true;
+								
 								try {
 									// Sign out from all sessions
 									const { error } = await supabase.auth.signOut({ scope: "global" });
 									if (error) {
 										console.error("Error signing out:", error);
 										// Fallback to local sign out if global fails
-										await supabase.auth.signOut();
+										await supabase.auth.signOut({ scope: "local" });
 									}
+									
+									// Clear local storage items related to auth
+									if (typeof window !== "undefined") {
+										const keysToRemove: string[] = [];
+										for (let i = 0; i < localStorage.length; i++) {
+											const key = localStorage.key(i);
+											if (key?.startsWith("sb-") || key?.includes("supabase")) {
+												keysToRemove.push(key);
+											}
+										}
+										for (const key of keysToRemove) {
+											localStorage.removeItem(key);
+										}
+									}
+									
+									// Redirect to home
 									router.push("/");
 									router.refresh();
 								} catch (error) {
 									console.error("Error during logout:", error);
+									isLoggingOutRef.current = false;
+									router.push("/");
+									router.refresh();
 								}
 							}}
 							className="rounded-lg border border-destructive/50 bg-destructive/10 px-3 py-1.5 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/20"

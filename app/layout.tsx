@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Header } from "./components/Header";
+import { InactivityGuard } from "./components/InactivityGuard";
 
 export const metadata: Metadata = {
 	title: "ParkEx Garasjemegling",
@@ -16,6 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				>
 					Hopp til innhold
 				</a>
+				<Header />
+				<InactivityGuard />
 				{children}
 			</body>
 		</html>
