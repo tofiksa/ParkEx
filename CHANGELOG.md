@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/tofiksa/ParkEx/compare/v1.1.0...v1.2.0) (2026-01-11)
+
+
+### Features
+
+* **pages:** add terms and privacy pages with email obfuscation ([7a8f27d](https://github.com/tofiksa/ParkEx/commit/7a8f27d238d62a716ea634c69b33b5cdf591a1c9))
+
 ## [1.1.0](https://github.com/tofiksa/ParkEx/compare/v1.0.0...v1.1.0) (2026-01-10)
 
 
