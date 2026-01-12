@@ -35,9 +35,124 @@ export default function PrivacyPage() {
 						</p>
 					</section>
 
+					<section id="google-oauth">
+						<h2 className="text-xl font-semibold text-foreground">
+							2. Google-innlogging og brukerdata
+						</h2>
+						<p className="mt-3 text-muted-foreground leading-relaxed">
+							ParkEx tilbyr innlogging via Google (Google Sign-In). Når du velger å logge inn med
+							Google, får vi tilgang til visse opplysninger fra din Google-konto. Her forklarer vi
+							hvordan vi håndterer disse dataene i henhold til{" "}
+							<a
+								href="https://developers.google.com/terms/api-services-user-data-policy"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-primary hover:underline"
+							>
+								Google API Services User Data Policy
+							</a>
+							.
+						</p>
+
+						<div className="mt-4 space-y-4 text-muted-foreground leading-relaxed">
+							<div>
+								<h3 className="font-medium text-foreground">Data vi får tilgang til fra Google:</h3>
+								<ul className="mt-2 list-disc pl-5 space-y-1">
+									<li>
+										<strong>E-postadresse:</strong> Brukes til å identifisere og opprette din
+										brukerkonto
+									</li>
+									<li>
+										<strong>Navn:</strong> Vises i din profil og i forbindelse med dine annonser og
+										bud
+									</li>
+									<li>
+										<strong>Profilbilde:</strong> Vises i din brukerprofil (valgfritt)
+									</li>
+								</ul>
+								<p className="mt-2 text-sm">
+									Vi ber kun om grunnleggende profilinformasjon og har ikke tilgang til dine
+									Google-kontakter, Google Drive-filer, kalender eller andre Google-tjenester.
+								</p>
+							</div>
+
+							<div>
+								<h3 className="font-medium text-foreground">
+									Hvordan vi bruker Google-brukerdata:
+								</h3>
+								<ul className="mt-2 list-disc pl-5 space-y-1">
+									<li>Opprette og administrere din brukerkonto på ParkEx</li>
+									<li>Autentisere deg når du logger inn</li>
+									<li>Vise ditt navn og eventuelt profilbilde i tjenesten</li>
+									<li>Sende viktige varsler om din konto til din e-postadresse</li>
+								</ul>
+								<p className="mt-2 text-sm">
+									Vi bruker ikke Google-brukerdata til markedsføring, profilering eller til å bygge
+									annonseprofiler.
+								</p>
+							</div>
+
+							<div>
+								<h3 className="font-medium text-foreground">Deling av Google-brukerdata:</h3>
+								<p className="mt-2">
+									Vi deler <strong>ikke</strong> dine Google-brukerdata med tredjeparter, unntatt:
+								</p>
+								<ul className="mt-2 list-disc pl-5 space-y-1">
+									<li>
+										<strong>Supabase (dataleverandør):</strong> Lagrer dine kontodata sikkert i EU
+										for drift av tjenesten
+									</li>
+									<li>
+										<strong>Lovpålagte krav:</strong> Dersom vi er pålagt å utlevere data av
+										myndigheter eller domstoler
+									</li>
+								</ul>
+								<p className="mt-2 text-sm">
+									Vi selger aldri dine personopplysninger til tredjeparter.
+								</p>
+							</div>
+
+							<div>
+								<h3 className="font-medium text-foreground">Lagring og sikkerhet:</h3>
+								<ul className="mt-2 list-disc pl-5 space-y-1">
+									<li>All data lagres kryptert hos Supabase i EU (GDPR-kompatibelt)</li>
+									<li>Sikker overføring via HTTPS/TLS</li>
+									<li>Tilgangskontroll og autentisering beskytter dine data</li>
+									<li>Regelmessig sikkerhetskopiering</li>
+								</ul>
+							</div>
+
+							<div>
+								<h3 className="font-medium text-foreground">Oppbevaring og sletting:</h3>
+								<p className="mt-2">
+									Dine Google-brukerdata oppbevares så lenge du har en aktiv konto hos oss. Du kan
+									når som helst:
+								</p>
+								<ul className="mt-2 list-disc pl-5 space-y-1">
+									<li>
+										<strong>Slette kontoen din:</strong> Kontakt oss på e-post for å be om sletting.
+										Alle dine data, inkludert Google-brukerdata, slettes innen 30 dager.
+									</li>
+									<li>
+										<strong>Fjerne Google-tilgang:</strong> Gå til{" "}
+										<a
+											href="https://myaccount.google.com/permissions"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-primary hover:underline"
+										>
+											Google-kontoinnstillinger
+										</a>{" "}
+										for å tilbakekalle ParkEx sin tilgang til din Google-konto.
+									</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
 					<section>
 						<h2 className="text-xl font-semibold text-foreground">
-							2. Hvilke opplysninger samler vi inn?
+							3. Hvilke opplysninger samler vi inn?
 						</h2>
 						<div className="mt-3 space-y-4 text-muted-foreground leading-relaxed">
 							<div>
@@ -69,7 +184,7 @@ export default function PrivacyPage() {
 
 					<section>
 						<h2 className="text-xl font-semibold text-foreground">
-							3. Hvordan bruker vi opplysningene?
+							4. Hvordan bruker vi opplysningene?
 						</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi bruker dine personopplysninger til følgende formål:
@@ -85,7 +200,7 @@ export default function PrivacyPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">4. Hvordan lagrer vi dataene?</h2>
+						<h2 className="text-xl font-semibold text-foreground">5. Hvordan lagrer vi dataene?</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Alle data lagres sikkert hos vår dataleverandør Supabase, som har servere i EU. Vi
 							bruker følgende sikkerhetstiltak:
@@ -99,7 +214,7 @@ export default function PrivacyPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">5. Deling av opplysninger</h2>
+						<h2 className="text-xl font-semibold text-foreground">6. Deling av opplysninger</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi selger aldri dine personopplysninger til tredjeparter. Vi kan dele opplysninger i
 							følgende tilfeller:
@@ -112,7 +227,7 @@ export default function PrivacyPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">6. Oppbevaringstid</h2>
+						<h2 className="text-xl font-semibold text-foreground">7. Oppbevaringstid</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi oppbevarer dine personopplysninger så lenge du har en aktiv konto hos oss. Dersom
 							du sletter kontoen din, vil vi slette eller anonymisere dine data innen 30 dager, med
@@ -121,7 +236,7 @@ export default function PrivacyPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">7. Dine rettigheter</h2>
+						<h2 className="text-xl font-semibold text-foreground">8. Dine rettigheter</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Du har følgende rettigheter i henhold til personvernlovgivningen:
 						</p>
@@ -155,7 +270,7 @@ export default function PrivacyPage() {
 
 					<section>
 						<h2 className="text-xl font-semibold text-foreground">
-							8. Informasjonskapsler (cookies)
+							9. Informasjonskapsler (cookies)
 						</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi bruker nødvendige informasjonskapsler for å sikre at tjenesten fungerer korrekt,
@@ -166,7 +281,7 @@ export default function PrivacyPage() {
 
 					<section>
 						<h2 className="text-xl font-semibold text-foreground">
-							9. Endringer i personvernerklæringen
+							10. Endringer i personvernerklæringen
 						</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi kan oppdatere denne personvernerklæringen fra tid til annen. Vesentlige endringer
@@ -176,7 +291,7 @@ export default function PrivacyPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">10. Kontakt</h2>
+						<h2 className="text-xl font-semibold text-foreground">11. Kontakt</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Har du spørsmål om personvern eller ønsker å utøve dine rettigheter, kontakt oss på:
 						</p>

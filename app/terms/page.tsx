@@ -70,7 +70,37 @@ export default function TermsPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">4. Bud og avtaler</h2>
+						<h2 className="text-xl font-semibold text-foreground">
+							4. Google-innlogging og brukerdata
+						</h2>
+						<p className="mt-3 text-muted-foreground leading-relaxed">
+							ParkEx tilbyr innlogging via Google (Google Sign-In). Ved å bruke denne funksjonen
+							samtykker du til at vi får tilgang til grunnleggende profilinformasjon fra din
+							Google-konto, inkludert e-postadresse, navn og profilbilde.
+						</p>
+						<p className="mt-3 text-muted-foreground leading-relaxed">
+							Vår bruk av Google-brukerdata er i samsvar med{" "}
+							<a
+								href="https://developers.google.com/terms/api-services-user-data-policy"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-primary hover:underline"
+							>
+								Google API Services User Data Policy
+							</a>
+							, inkludert kravene om begrenset bruk (Limited Use).
+						</p>
+						<p className="mt-3 text-muted-foreground leading-relaxed">
+							For fullstendig informasjon om hvordan vi håndterer Google-brukerdata, se vår{" "}
+							<Link href="/privacy#google-oauth" className="text-primary hover:underline">
+								personvernerklæring (seksjon 2)
+							</Link>
+							.
+						</p>
+					</section>
+
+					<section>
+						<h2 className="text-xl font-semibold text-foreground">5. Bud og avtaler</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Alle bud som legges inn på plattformen er bindende. Når du legger inn et bud,
 							forplikter du deg til å gjennomføre kjøpet dersom budet ditt blir akseptert. ParkEx
@@ -80,7 +110,7 @@ export default function TermsPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">5. Brukerens ansvar</h2>
+						<h2 className="text-xl font-semibold text-foreground">6. Brukerens ansvar</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">Du forplikter deg til å:</p>
 						<ul className="mt-2 list-disc pl-5 space-y-1 text-muted-foreground">
 							<li>Oppgi korrekt og sannferdig informasjon i annonser</li>
@@ -91,7 +121,7 @@ export default function TermsPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">6. Ansvarsbegrensning</h2>
+						<h2 className="text-xl font-semibold text-foreground">7. Ansvarsbegrensning</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							ParkEx er en formidlingstjeneste og tar ikke ansvar for innholdet i annonsene,
 							kvaliteten på garasjeplassene, eller gjennomføringen av transaksjoner mellom brukere.
@@ -101,7 +131,7 @@ export default function TermsPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">7. Endringer i vilkårene</h2>
+						<h2 className="text-xl font-semibold text-foreground">8. Endringer i vilkårene</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vi forbeholder oss retten til å endre disse vilkårene. Vesentlige endringer vil bli
 							varslet til registrerte brukere via e-post eller gjennom plattformen.
@@ -109,7 +139,7 @@ export default function TermsPage() {
 					</section>
 
 					<section>
-						<h2 className="text-xl font-semibold text-foreground">8. Kontakt</h2>
+						<h2 className="text-xl font-semibold text-foreground">9. Kontakt</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Har du spørsmål om disse vilkårene, kan du kontakte oss på{" "}
 							<ObfuscatedEmail
