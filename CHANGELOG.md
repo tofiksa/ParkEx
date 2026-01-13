@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/tofiksa/ParkEx/compare/v1.2.0...v1.3.0) (2026-01-13)
+
+
+### Features
+
+* **i18n:** add Norwegian localization to Supabase Auth UI ([3dd4c4c](https://github.com/tofiksa/ParkEx/commit/3dd4c4cdf050f9c68f7a1cd83142caf8813f1482))
+* **privacy:** add Google OAuth data handling disclosure ([c7357c6](https://github.com/tofiksa/ParkEx/commit/c7357c65289686ca135b18bb935d71835dfa8bdd))
+
+
+### Bug Fixes
+
+* **i18n:** correct Norwegian text on forgot password view ([d71d845](https://github.com/tofiksa/ParkEx/commit/d71d845466c30130b955bd86e5481caa9f184f3e))
+* **i18n:** translate remaining English terms to Norwegian ([18cbb97](https://github.com/tofiksa/ParkEx/commit/18cbb976616396cab2a2c0f85b4d9edf2df2b787))
+
 ## [1.2.0](https://github.com/tofiksa/ParkEx/compare/v1.1.0...v1.2.0) (2026-01-11)
 
 
