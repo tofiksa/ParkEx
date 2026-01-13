@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 // User type with metadata from Supabase auth
@@ -34,17 +34,21 @@ type Profile = {
 };
 
 // Helper to extract name parts from Google user metadata
-function extractGoogleUserData(user: AuthUser | null): { firstName: string; lastName: string; email: string } {
+function extractGoogleUserData(user: AuthUser | null): {
+	firstName: string;
+	lastName: string;
+	email: string;
+} {
 	if (!user) return { firstName: "", lastName: "", email: "" };
-	
+
 	const metadata = user.user_metadata || {};
 	const email = user.email || metadata.email || "";
-	
+
 	// Google typically provides full_name or name
 	const fullName = metadata.full_name || metadata.name || "";
 	let firstName = metadata.first_name || metadata.given_name || "";
 	let lastName = metadata.last_name || metadata.family_name || "";
-	
+
 	// If we have full_name but not first/last, split it
 	if (fullName && (!firstName || !lastName)) {
 		const parts = fullName.trim().split(/\s+/);
@@ -55,7 +59,7 @@ function extractGoogleUserData(user: AuthUser | null): { firstName: string; last
 			firstName = firstName || parts[0];
 		}
 	}
-	
+
 	return { firstName, lastName, email };
 }
 
@@ -72,8 +76,7 @@ export default function ProfilePage() {
 	const [user, setUser] = useState<AuthUser | null>(null);
 	const [profile, setProfile] = useState<Profile | null>(null);
 	const [loading, setLoading] = useState(true);
-	const isLoggingOutRef = useRef(false);
-	
+
 	// Form state for profile completion
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -103,10 +106,7 @@ export default function ProfilePage() {
 			if (userErr || !currentUser) {
 				setIsAuthenticated(false);
 				setLoading(false);
-				// Only redirect if not intentionally logging out
-				if (!isLoggingOutRef.current) {
-					router.push("/login?redirect=/profile");
-				}
+				router.push("/login?redirect=/profile");
 				return;
 			}
 
@@ -124,7 +124,7 @@ export default function ProfilePage() {
 			}
 
 			setProfile(profileData);
-			
+
 			// Pre-fill form with existing profile data or Google user data
 			const googleData = extractGoogleUserData(currentUser as AuthUser);
 			setFormData({
@@ -135,7 +135,7 @@ export default function ProfilePage() {
 				phone: profileData?.phone || "",
 				address: profileData?.address || "",
 			});
-			
+
 			setLoading(false);
 		};
 
@@ -144,11 +144,6 @@ export default function ProfilePage() {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, session) => {
-			// Don't redirect if we're intentionally logging out
-			if (isLoggingOutRef.current) {
-				return;
-			}
-			
 			if (!session?.user) {
 				setIsAuthenticated(false);
 				router.push("/login?redirect=/profile");
@@ -162,48 +157,46 @@ export default function ProfilePage() {
 			subscription?.unsubscribe();
 		};
 	}, [supabase, router]);
-	
+
 	// Handle profile form submission
 	const handleProfileSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!supabase || !user) return;
-		
+
 		setFormError(null);
 		setFormSuccess(false);
 		setSubmitting(true);
-		
+
 		if (!formData.firstName || !formData.lastName || !formData.role) {
 			setFormError("Vennligst fyll ut alle påkrevde felt (fornavn, etternavn, rolle).");
 			setSubmitting(false);
 			return;
 		}
-		
-		const { error } = await supabase
-			.from("profiles")
-			.upsert({
-				id: user.id,
-				first_name: formData.firstName.trim(),
-				last_name: formData.lastName.trim(),
-				email: formData.email.trim() || user.email,
-				role: formData.role,
-				phone: formData.phone.trim() || null,
-				address: formData.address.trim() || null,
-			});
-		
+
+		const { error } = await supabase.from("profiles").upsert({
+			id: user.id,
+			first_name: formData.firstName.trim(),
+			last_name: formData.lastName.trim(),
+			email: formData.email.trim() || user.email,
+			role: formData.role,
+			phone: formData.phone.trim() || null,
+			address: formData.address.trim() || null,
+		});
+
 		if (error) {
 			console.error("Error saving profile:", error);
 			setFormError(error.message);
 			setSubmitting(false);
 			return;
 		}
-		
+
 		// Reload profile data
 		const { data: updatedProfile } = await supabase
 			.from("profiles")
 			.select("*")
 			.eq("id", user.id)
 			.maybeSingle();
-		
+
 		setProfile(updatedProfile);
 		setFormSuccess(true);
 		setSubmitting(false);
@@ -258,51 +251,6 @@ export default function ProfilePage() {
 								Opprett annonse
 							</Link>
 						)}
-						<button
-							type="button"
-							onClick={async () => {
-								if (!supabase) return;
-								
-								// Set flag to prevent redirect conflict
-								isLoggingOutRef.current = true;
-								
-								try {
-									// Sign out from all sessions
-									const { error } = await supabase.auth.signOut({ scope: "global" });
-									if (error) {
-										console.error("Error signing out:", error);
-										// Fallback to local sign out if global fails
-										await supabase.auth.signOut({ scope: "local" });
-									}
-									
-									// Clear local storage items related to auth
-									if (typeof window !== "undefined") {
-										const keysToRemove: string[] = [];
-										for (let i = 0; i < localStorage.length; i++) {
-											const key = localStorage.key(i);
-											if (key?.startsWith("sb-") || key?.includes("supabase")) {
-												keysToRemove.push(key);
-											}
-										}
-										for (const key of keysToRemove) {
-											localStorage.removeItem(key);
-										}
-									}
-									
-									// Redirect to home
-									router.push("/");
-									router.refresh();
-								} catch (error) {
-									console.error("Error during logout:", error);
-									isLoggingOutRef.current = false;
-									router.push("/");
-									router.refresh();
-								}
-							}}
-							className="rounded-lg border border-destructive/50 bg-destructive/10 px-3 py-1.5 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/20"
-						>
-							Logg ut
-						</button>
 					</div>
 				</div>
 
@@ -356,23 +304,24 @@ export default function ProfilePage() {
 									{profile ? "Fullfør profilen din" : "Du har ikke fullført profilen din ennå"}
 								</p>
 								<p className="mb-4 text-xs text-muted-foreground">
-									{user?.app_metadata?.provider === "google" || user?.user_metadata?.iss?.includes("google")
+									{user?.app_metadata?.provider === "google" ||
+									user?.user_metadata?.iss?.includes("google")
 										? "Vi har forhåndsutfylt informasjon fra Google-kontoen din. Velg rolle og lagre."
 										: "Fyll ut informasjonen nedenfor for å fullføre profilen."}
 								</p>
-								
+
 								{formError && (
 									<div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
 										{formError}
 									</div>
 								)}
-								
+
 								{formSuccess && (
 									<div className="mb-4 rounded-md border border-green-500/50 bg-green-500/10 p-3 text-sm text-green-400">
 										Profilen ble lagret!
 									</div>
 								)}
-								
+
 								<form onSubmit={handleProfileSubmit} className="grid gap-4">
 									<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
 										<label className="grid gap-1 text-sm text-muted-foreground">
@@ -416,7 +365,9 @@ export default function ProfilePage() {
 											required
 											name="role"
 											value={formData.role}
-											onChange={(e) => setFormData({ ...formData, role: e.target.value as "buyer" | "seller" })}
+											onChange={(e) =>
+												setFormData({ ...formData, role: e.target.value as "buyer" | "seller" })
+											}
 											className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
 										>
 											<option value="" disabled>
@@ -476,7 +427,9 @@ export default function ProfilePage() {
 								className="rounded-xl border border-border/70 bg-card/70 p-4 shadow-md backdrop-blur transition hover:border-border hover:shadow-lg"
 							>
 								<p className="text-sm font-semibold text-foreground">Mine annonser</p>
-								<p className="mt-1 text-xs text-muted-foreground">Se dine garasjer og høyeste bud</p>
+								<p className="mt-1 text-xs text-muted-foreground">
+									Se dine garasjer og høyeste bud
+								</p>
 							</Link>
 							<Link
 								href="/sell/new"
