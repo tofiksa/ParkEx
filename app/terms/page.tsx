@@ -74,9 +74,9 @@ export default function TermsPage() {
 							4. Google-innlogging og brukerdata
 						</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
-							ParkEx tilbyr innlogging via Google (Google Sign-In). Ved å bruke denne funksjonen
-							samtykker du til at vi får tilgang til grunnleggende profilinformasjon fra din
-							Google-konto, inkludert e-postadresse, navn og profilbilde.
+							ParkEx tilbyr innlogging via Google. Ved å bruke denne funksjonen samtykker du til at
+							vi får tilgang til grunnleggende profilinformasjon fra din Google-konto, inkludert
+							e-postadresse, navn og profilbilde.
 						</p>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							Vår bruk av Google-brukerdata er i samsvar med{" "}
@@ -86,9 +86,9 @@ export default function TermsPage() {
 								rel="noopener noreferrer"
 								className="text-primary hover:underline"
 							>
-								Google API Services User Data Policy
+								Googles retningslinjer for brukerdata
 							</a>
-							, inkludert kravene om begrenset bruk (Limited Use).
+							, inkludert kravene om begrenset bruk.
 						</p>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
 							For fullstendig informasjon om hvordan vi håndterer Google-brukerdata, se vår{" "}

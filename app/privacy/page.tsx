@@ -40,16 +40,16 @@ export default function PrivacyPage() {
 							2. Google-innlogging og brukerdata
 						</h2>
 						<p className="mt-3 text-muted-foreground leading-relaxed">
-							ParkEx tilbyr innlogging via Google (Google Sign-In). Når du velger å logge inn med
-							Google, får vi tilgang til visse opplysninger fra din Google-konto. Her forklarer vi
-							hvordan vi håndterer disse dataene i henhold til{" "}
+							ParkEx tilbyr innlogging via Google. Når du velger å logge inn med Google, får vi
+							tilgang til visse opplysninger fra din Google-konto. Her forklarer vi hvordan vi
+							håndterer disse dataene i henhold til{" "}
 							<a
 								href="https://developers.google.com/terms/api-services-user-data-policy"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-primary hover:underline"
 							>
-								Google API Services User Data Policy
+								Googles retningslinjer for brukerdata
 							</a>
 							.
 						</p>
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
 								</ul>
 								<p className="mt-2 text-sm">
 									Vi ber kun om grunnleggende profilinformasjon og har ikke tilgang til dine
-									Google-kontakter, Google Drive-filer, kalender eller andre Google-tjenester.
+									Google-kontakter, filer, kalender eller andre Google-tjenester.
 								</p>
 							</div>
 
