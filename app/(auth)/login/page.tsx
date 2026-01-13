@@ -123,6 +123,9 @@ function LoginForm() {
 							anchor: {
 								color: "hsl(225 100% 68%)",
 							},
+							container: {
+								gap: "8px",
+							},
 						},
 					}}
 					localization={{
@@ -135,7 +138,7 @@ function LoginForm() {
 								button_label: "Logg inn",
 								loading_button_label: "Logger inn...",
 								social_provider_text: "Logg inn med {{provider}}",
-								link_text: "Har du ikke konto? Registrer deg",
+								link_text: "Tilbake til innlogging",
 							},
 							sign_up: {
 								link_text: "Har du ikke konto? Registrer deg",
