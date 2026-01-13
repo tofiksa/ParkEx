@@ -1,37 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-
-// User type with metadata from Supabase auth
-type AuthUser = {
-	id: string;
-	email?: string;
-	user_metadata?: {
-		full_name?: string;
-		name?: string;
-		first_name?: string;
-		last_name?: string;
-		given_name?: string;
-		family_name?: string;
-		email?: string;
-		avatar_url?: string;
-		iss?: string;
-	};
-	app_metadata?: {
-		provider?: string;
-	};
-};
-
-type Profile = {
-	email?: string;
-	first_name?: string;
-	last_name?: string;
-	role?: "buyer" | "seller";
-	phone?: string;
-	address?: string;
-};
+import type { AuthUser, Profile, ProfileFormData } from "@/types";
 
 // Helper to extract name parts from Google user metadata
 function extractGoogleUserData(user: AuthUser | null): {
@@ -78,11 +51,11 @@ export default function ProfilePage() {
 	const [loading, setLoading] = useState(true);
 
 	// Form state for profile completion
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<ProfileFormData>({
 		firstName: "",
 		lastName: "",
 		email: "",
-		role: "" as "" | "buyer" | "seller",
+		role: "",
 		phone: "",
 		address: "",
 	});

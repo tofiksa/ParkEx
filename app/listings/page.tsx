@@ -1,16 +1,6 @@
 import Link from "next/link";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-
-type GarageWithBid = {
-	id: string;
-	title: string;
-	address: string;
-	startPrice: number;
-	bidEndAt: string;
-	highestBid: number | null;
-	bidCount: number;
-	isActive: boolean;
-};
+import type { GarageWithBid } from "@/types";
 
 type SortOption = "newest" | "price_high" | "price_low" | "bids_first";
 

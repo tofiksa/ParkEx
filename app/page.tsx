@@ -1,20 +1,11 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import type { GarageCarouselItem } from "@/types";
 import { RealtimeBidCarousel } from "./components/RealtimeBidCarousel";
-
-type GarageWithBid = {
-	id: string;
-	title: string;
-	address: string;
-	startPrice: number;
-	bidEndAt: string;
-	highestBid: number | null;
-	lastBidAt: string | null;
-};
 
 export default async function Home() {
 	const supabase = await getSupabaseServerClient();
 
-	let initialGarages: GarageWithBid[] = [];
+	let initialGarages: GarageCarouselItem[] = [];
 
 	if (supabase) {
 		// Fetch active garages

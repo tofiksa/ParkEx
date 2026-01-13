@@ -3,31 +3,13 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-
-type GarageWithBid = {
-	id: string;
-	title: string;
-	address: string;
-	startPrice: number;
-	bidEndAt: string;
-	highestBid: number | null;
-	lastBidAt: string | null;
-};
-
-type RealtimePayload = {
-	new: {
-		id: string;
-		garage_id: string;
-		amount: number;
-		created_at: string;
-	};
-};
+import type { GarageCarouselItem, RealtimeBidPayload } from "@/types";
 
 const ROTATION_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-export function RealtimeBidCarousel({ initialGarages }: { initialGarages: GarageWithBid[] }) {
+export function RealtimeBidCarousel({ initialGarages }: { initialGarages: GarageCarouselItem[] }) {
 	const supabase = getSupabaseBrowserClient();
-	const [garages, setGarages] = useState<GarageWithBid[]>(initialGarages);
+	const [garages, setGarages] = useState<GarageCarouselItem[]>(initialGarages);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 	const [isAnimating, setIsAnimating] = useState(false);
@@ -75,7 +57,7 @@ export function RealtimeBidCarousel({ initialGarages }: { initialGarages: Garage
 					schema: "public",
 					table: "bids",
 				},
-				async (payload: RealtimePayload) => {
+				async (payload: RealtimeBidPayload) => {
 					const newBid = payload.new;
 
 					// Update the garage in our list with the new bid

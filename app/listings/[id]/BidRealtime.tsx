@@ -2,22 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import type { BidDisplay } from "@/types";
 import { BidForm } from "./BidForm";
-
-type Bid = {
-	amount: number;
-	created_at: string;
-	bidder_id: string;
-};
 
 type Props = {
 	garageId: string;
 	startPrice: number;
-	initialBids: Bid[];
+	initialBids: BidDisplay[];
 };
 
 export function BidRealtime({ garageId, startPrice, initialBids }: Props) {
-	const [bids, setBids] = useState<Bid[]>(initialBids);
+	const [bids, setBids] = useState<BidDisplay[]>(initialBids);
 	const topBid = bids[0];
 	const minRequired = Math.max(startPrice, topBid?.amount ?? 0) + 1;
 
@@ -29,7 +24,7 @@ export function BidRealtime({ garageId, startPrice, initialBids }: Props) {
 				"postgres_changes",
 				{ event: "INSERT", schema: "public", table: "bids", filter: `garage_id=eq.${garageId}` },
 				(payload) => {
-					const newBid = payload.new as Bid;
+					const newBid = payload.new as BidDisplay;
 					setBids((prev) =>
 						[...prev, newBid].sort((a, b) => Number(b.amount) - Number(a.amount)).slice(0, 5),
 					);
