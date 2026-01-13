@@ -32,8 +32,6 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
 		.order("amount", { ascending: false })
 		.limit(5);
 
-	const _topBid = bids?.[0];
-
 	return (
 		<main
 			id="main"
