@@ -143,10 +143,16 @@ export default function ProfilePage() {
 
 		const {
 			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
+		} = supabase.auth.onAuthStateChange((event, session) => {
 			if (!session?.user) {
 				setIsAuthenticated(false);
-				router.push("/login?redirect=/profile");
+				// If user signed out intentionally, redirect to home
+				// Otherwise (session expired), redirect to login
+				if (event === "SIGNED_OUT") {
+					router.push("/");
+				} else {
+					router.push("/login?redirect=/profile");
+				}
 			} else {
 				setIsAuthenticated(true);
 				setUser(session.user as AuthUser);
