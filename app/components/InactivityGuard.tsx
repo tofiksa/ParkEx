@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
@@ -11,11 +11,11 @@ export function InactivityGuard() {
 	const supabase = getSupabaseBrowserClient();
 	const router = useRouter();
 	const pathname = usePathname();
-	
+
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [countdown, setCountdown] = useState(LOGOUT_COUNTDOWN);
-	
+
 	const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const lastActivityRef = useRef<number>(Date.now());
@@ -35,7 +35,7 @@ export function InactivityGuard() {
 
 			// Sign out from ALL sessions globally
 			const { error } = await supabase.auth.signOut({ scope: "global" });
-			
+
 			if (error) {
 				console.error("Error during global sign out:", error);
 				// Fallback to local sign out
@@ -71,7 +71,7 @@ export function InactivityGuard() {
 
 			setIsAuthenticated(false);
 			setShowModal(false);
-			
+
 			// Redirect to homepage
 			router.push("/");
 			router.refresh();
@@ -86,7 +86,7 @@ export function InactivityGuard() {
 	// Reset inactivity timer
 	const resetInactivityTimer = useCallback(() => {
 		lastActivityRef.current = Date.now();
-		
+
 		// Clear existing timer
 		if (inactivityTimerRef.current) {
 			clearTimeout(inactivityTimerRef.current);
@@ -121,13 +121,17 @@ export function InactivityGuard() {
 		if (!supabase) return;
 
 		const checkAuth = async () => {
-			const { data: { user } } = await supabase.auth.getUser();
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
 			setIsAuthenticated(!!user);
 		};
 
 		checkAuth();
 
-		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
 			setIsAuthenticated(!!session?.user);
 		});
 
@@ -148,7 +152,7 @@ export function InactivityGuard() {
 		if (!isAuthenticated) return;
 
 		const events = ["mousedown", "mousemove", "keydown", "scroll", "touchstart", "click"];
-		
+
 		for (const event of events) {
 			window.addEventListener(event, handleActivity, { passive: true });
 		}
@@ -157,7 +161,7 @@ export function InactivityGuard() {
 			for (const event of events) {
 				window.removeEventListener(event, handleActivity);
 			}
-			
+
 			if (inactivityTimerRef.current) {
 				clearTimeout(inactivityTimerRef.current);
 			}
@@ -207,7 +211,7 @@ export function InactivityGuard() {
 
 	return (
 		<div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-			<div 
+			<div
 				className="mx-4 w-full max-w-md rounded-2xl border border-border/80 bg-card p-6 shadow-2xl"
 				role="alertdialog"
 				aria-modal="true"
@@ -232,17 +236,14 @@ export function InactivityGuard() {
 					</svg>
 				</div>
 
-				<h2 
-					id="inactivity-title" 
+				<h2
+					id="inactivity-title"
 					className="mb-2 text-center text-xl font-semibold text-foreground"
 				>
 					Er du fortsatt der?
 				</h2>
 
-				<p 
-					id="inactivity-description" 
-					className="mb-4 text-center text-sm text-muted-foreground"
-				>
+				<p id="inactivity-description" className="mb-4 text-center text-sm text-muted-foreground">
 					Du har vært inaktiv i over 10 minutter. Av sikkerhetsgrunner vil du bli logget ut om:
 				</p>
 
@@ -276,7 +277,7 @@ export function InactivityGuard() {
 						</svg>
 						{/* Countdown number */}
 						<div className="absolute inset-0 flex items-center justify-center">
-							<span 
+							<span
 								className={`text-2xl font-bold ${
 									countdown <= 10 ? "text-red-500" : "text-foreground"
 								}`}

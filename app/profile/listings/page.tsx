@@ -65,9 +65,7 @@ export default async function SellerListingsPage() {
 		return (
 			<main className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 md:py-16">
 				<div className="rounded-xl border border-border/70 bg-card/70 p-6 text-center shadow-lg">
-					<p className="text-sm text-muted-foreground">
-						Kun selgere har tilgang til denne siden.
-					</p>
+					<p className="text-sm text-muted-foreground">Kun selgere har tilgang til denne siden.</p>
 					<div className="mt-3">
 						<Link className="text-sm font-semibold text-primary hover:underline" href="/profile">
 							Gå til profil
@@ -141,17 +139,25 @@ export default async function SellerListingsPage() {
 	}
 
 	// Build highest bid map (first bid per garage is highest due to ordering)
-	const highestBidMap = new Map<string, {
-		amount: number;
-		bidderId: string;
-		bidderName: string;
-		bidderEmail: string;
-		bidderPhone: string | null;
-	}>();
+	const highestBidMap = new Map<
+		string,
+		{
+			amount: number;
+			bidderId: string;
+			bidderName: string;
+			bidderEmail: string;
+			bidderPhone: string | null;
+		}
+	>();
 
 	for (const bid of allBids ?? []) {
 		if (!highestBidMap.has(bid.garage_id)) {
-			const profile = bid.profiles as { first_name: string; last_name: string; email: string; phone: string | null } | null;
+			const profile = bid.profiles as {
+				first_name: string;
+				last_name: string;
+				email: string;
+				phone: string | null;
+			} | null;
 			highestBidMap.set(bid.garage_id, {
 				amount: Number(bid.amount),
 				bidderId: bid.bidder_id,
@@ -290,7 +296,9 @@ function GarageListingCard({ garage }: { garage: GarageWithBidInfo }) {
 				</div>
 				<div>
 					<p className="text-xs text-muted-foreground">Høyeste bud</p>
-					<p className={`text-sm font-semibold ${hasHighestBid ? "text-green-400" : "text-muted-foreground"}`}>
+					<p
+						className={`text-sm font-semibold ${hasHighestBid ? "text-green-400" : "text-muted-foreground"}`}
+					>
 						{hasHighestBid
 							? `${garage.highestBid?.amount.toLocaleString("no-NO")} kr`
 							: "Ingen bud"}
@@ -319,7 +327,9 @@ function GarageListingCard({ garage }: { garage: GarageWithBidInfo }) {
 					<div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
 						<div>
 							<p className="text-xs text-muted-foreground">Navn</p>
-							<p className="text-sm font-semibold text-foreground">{garage.highestBid?.bidderName}</p>
+							<p className="text-sm font-semibold text-foreground">
+								{garage.highestBid?.bidderName}
+							</p>
 						</div>
 						<div>
 							<p className="text-xs text-muted-foreground">E-post</p>

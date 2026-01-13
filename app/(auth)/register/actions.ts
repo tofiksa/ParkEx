@@ -30,17 +30,15 @@ export async function upsertProfile(formData: FormData) {
 		return { ok: false, error: "Mangler påkrevde felt" };
 	}
 
-	const { error } = await supabase
-		.from("profiles")
-		.upsert({
-			id: user.id,
-			role,
-			first_name: firstName,
-			last_name: lastName,
-			email,
-			phone,
-			address,
-		});
+	const { error } = await supabase.from("profiles").upsert({
+		id: user.id,
+		role,
+		first_name: firstName,
+		last_name: lastName,
+		email,
+		phone,
+		address,
+	});
 
 	if (error) {
 		console.error("Error upserting profile:", error);

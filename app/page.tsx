@@ -77,10 +77,7 @@ export default async function Home() {
 	}
 
 	return (
-		<main
-			id="main"
-			className="flex min-h-screen flex-col bg-transparent"
-		>
+		<main id="main" className="flex min-h-screen flex-col bg-transparent">
 			<section className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6 md:py-16">
 				<div className="grid w-full max-w-5xl grid-cols-1 items-center gap-10 md:grid-cols-2">
 					<div className="flex flex-col gap-4">

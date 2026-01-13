@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -48,7 +48,7 @@ export function Header() {
 		try {
 			// Sign out from ALL sessions globally
 			const { error } = await supabase.auth.signOut({ scope: "global" });
-			
+
 			if (error) {
 				console.error("Error during global sign out:", error);
 				// Fallback to local sign out
@@ -165,4 +165,3 @@ export function Header() {
 		</header>
 	);
 }
-

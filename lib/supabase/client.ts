@@ -16,7 +16,7 @@ export function getSupabaseBrowserClient() {
 	if (browserClient) return browserClient;
 	const env = getSupabaseBrowserEnv();
 	if (!env) return null;
-	
+
 	// Use createBrowserClient from @supabase/ssr for proper cookie handling
 	browserClient = createBrowserClient(env.url, env.anonKey);
 	return browserClient;

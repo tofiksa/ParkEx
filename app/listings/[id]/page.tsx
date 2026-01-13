@@ -5,7 +5,7 @@ import { BidRealtime } from "./BidRealtime";
 
 export default async function ListingDetail({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
-	
+
 	const supabase = await getSupabaseServerClient();
 	if (!supabase) {
 		return (
@@ -19,11 +19,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
 			</main>
 		);
 	}
-	const { data: garage, error } = await supabase
-		.from("garages")
-		.select("*")
-		.eq("id", id)
-		.single();
+	const { data: garage, error } = await supabase.from("garages").select("*").eq("id", id).single();
 
 	if (error || !garage) {
 		notFound();

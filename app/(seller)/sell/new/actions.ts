@@ -9,7 +9,7 @@ export async function createGarage(formData: FormData) {
 	if (!supabase) {
 		return { ok: false, error: "Supabase ikke konfigurert" };
 	}
-	
+
 	const {
 		data: { user },
 		error: userErr,
@@ -24,16 +24,19 @@ export async function createGarage(formData: FormData) {
 		.select("id, role")
 		.eq("id", user.id)
 		.maybeSingle();
-	
+
 	if (profileErr) {
 		console.error("Error fetching profile:", profileErr);
 		return { ok: false, error: "Kunne ikke hente profil" };
 	}
-	
+
 	if (!profile) {
-		return { ok: false, error: "Du må fullføre profilen din før du kan opprette annonser. Gå til /profile." };
+		return {
+			ok: false,
+			error: "Du må fullføre profilen din før du kan opprette annonser. Gå til /profile.",
+		};
 	}
-	
+
 	if (profile.role !== "seller") {
 		return { ok: false, error: "Kun selgere kan opprette annonser. Endre rollen din i profilen." };
 	}
@@ -78,7 +81,7 @@ export async function createGarage(formData: FormData) {
 
 	revalidatePath("/listings");
 	revalidatePath("/sell/new");
-	
+
 	// Redirect to the new listing
 	redirect(`/listings/${garage.id}`);
 }

@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createGarage } from "./actions";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createGarage } from "./actions";
 
 type Profile = {
 	role?: "buyer" | "seller";
@@ -37,16 +37,16 @@ export default function NewListingPage() {
 				router.push("/login?redirect=/sell/new");
 				return;
 			}
-			
+
 			setIsAuthenticated(true);
-			
+
 			// Fetch profile to check role
 			const { data: profileData } = await supabase
 				.from("profiles")
 				.select("role")
 				.eq("id", user.id)
 				.maybeSingle();
-			
+
 			setProfile(profileData);
 			setLoading(false);
 		};
@@ -74,12 +74,12 @@ export default function NewListingPage() {
 			subscription?.unsubscribe();
 		};
 	}, [supabase, router]);
-	
+
 	// Handle form submission with error display
 	const handleSubmit = async (formData: FormData) => {
 		setError(null);
 		setSubmitting(true);
-		
+
 		try {
 			const result = await createGarage(formData);
 			// If we get here without redirect, there was an error
@@ -125,7 +125,7 @@ export default function NewListingPage() {
 	if (isAuthenticated === false) {
 		return null; // Redirect is happening
 	}
-	
+
 	// Check if profile is incomplete or not a seller
 	if (!profile) {
 		return (
@@ -148,7 +148,7 @@ export default function NewListingPage() {
 			</main>
 		);
 	}
-	
+
 	if (profile.role !== "seller") {
 		return (
 			<main
@@ -170,7 +170,7 @@ export default function NewListingPage() {
 			</main>
 		);
 	}
-	
+
 	return (
 		<main
 			id="main"
@@ -189,13 +189,13 @@ export default function NewListingPage() {
 						Til annonser
 					</Link>
 				</div>
-				
+
 				{error && (
 					<div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
 						{error}
 					</div>
 				)}
-				
+
 				<form action={handleSubmit} className="grid gap-4">
 					<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
 						<label className="grid gap-1 text-sm text-muted-foreground">

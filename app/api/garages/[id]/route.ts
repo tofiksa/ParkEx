@@ -1,20 +1,16 @@
 import { NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { incCounter } from "@/lib/metrics";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params;
-	
+
 	const supabase = await getSupabaseServerClient();
 	if (!supabase) {
 		incCounter("api_requests_total", { route: "garage_detail", status: 500 });
 		return NextResponse.json({ error: "Supabase config missing" }, { status: 500 });
 	}
-	const { data: garage, error } = await supabase
-		.from("garages")
-		.select("*")
-		.eq("id", id)
-		.single();
+	const { data: garage, error } = await supabase.from("garages").select("*").eq("id", id).single();
 
 	if (error) {
 		incCounter("api_requests_total", { route: "garage_detail", status: 404 });

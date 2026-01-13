@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type GarageWithBid = {
@@ -25,11 +25,7 @@ type RealtimePayload = {
 
 const ROTATION_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-export function RealtimeBidCarousel({
-	initialGarages,
-}: {
-	initialGarages: GarageWithBid[];
-}) {
+export function RealtimeBidCarousel({ initialGarages }: { initialGarages: GarageWithBid[] }) {
 	const supabase = getSupabaseBrowserClient();
 	const [garages, setGarages] = useState<GarageWithBid[]>(initialGarages);
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,17 +36,20 @@ export function RealtimeBidCarousel({
 	const currentGarage = garages.length > 0 ? garages[currentIndex % garages.length] : null;
 
 	// Function to switch to a specific garage with animation
-	const switchToGarage = useCallback((garageId: string) => {
-		const index = garages.findIndex((g) => g.id === garageId);
-		if (index !== -1 && index !== currentIndex) {
-			setIsAnimating(true);
-			setTimeout(() => {
-				setCurrentIndex(index);
-				setLastUpdateTime(Date.now());
-				setTimeout(() => setIsAnimating(false), 300);
-			}, 150);
-		}
-	}, [garages, currentIndex]);
+	const switchToGarage = useCallback(
+		(garageId: string) => {
+			const index = garages.findIndex((g) => g.id === garageId);
+			if (index !== -1 && index !== currentIndex) {
+				setIsAnimating(true);
+				setTimeout(() => {
+					setCurrentIndex(index);
+					setLastUpdateTime(Date.now());
+					setTimeout(() => setIsAnimating(false), 300);
+				}, 150);
+			}
+		},
+		[garages, currentIndex],
+	);
 
 	// Function to rotate to next garage
 	const rotateToNext = useCallback(() => {
@@ -78,7 +77,7 @@ export function RealtimeBidCarousel({
 				},
 				async (payload: RealtimePayload) => {
 					const newBid = payload.new;
-					
+
 					// Update the garage in our list with the new bid
 					setGarages((prev) => {
 						const updated = prev.map((g) => {
@@ -103,7 +102,7 @@ export function RealtimeBidCarousel({
 
 					// Switch to the garage that just received a bid
 					switchToGarage(newBid.garage_id);
-				}
+				},
 			)
 			.subscribe();
 
@@ -182,9 +181,7 @@ export function RealtimeBidCarousel({
 			</div>
 
 			<div className="space-y-2">
-				<p className="text-sm text-muted-foreground">
-					{hasBids ? "Høyeste bud" : "Startpris"}
-				</p>
+				<p className="text-sm text-muted-foreground">{hasBids ? "Høyeste bud" : "Startpris"}</p>
 				<p className={`text-3xl font-bold ${hasBids ? "text-green-400" : "text-foreground"}`}>
 					{displayPrice.toLocaleString("no-NO")} kr
 				</p>
@@ -230,9 +227,7 @@ export function RealtimeBidCarousel({
 							<span className="ml-1 text-xs text-muted-foreground">+{garages.length - 5}</span>
 						)}
 					</div>
-					<p className="text-xs text-muted-foreground">
-						Bytter om {minutesUntilRotation} min
-					</p>
+					<p className="text-xs text-muted-foreground">Bytter om {minutesUntilRotation} min</p>
 				</div>
 			)}
 

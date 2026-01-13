@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type Props = {
 	garageId: string;
@@ -75,9 +75,7 @@ export function BidForm({ garageId, minRequired }: Props) {
 	if (!user) {
 		return (
 			<div className="space-y-3">
-				<p className="text-sm text-muted-foreground">
-					Du må være innlogget for å legge inn bud.
-				</p>
+				<p className="text-sm text-muted-foreground">Du må være innlogget for å legge inn bud.</p>
 				<a
 					href={`/login?redirect=${encodeURIComponent(pathname)}`}
 					className="block rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold text-primary-foreground shadow-lg transition hover:translate-y-[-1px] hover:shadow-xl"

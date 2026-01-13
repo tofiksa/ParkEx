@@ -246,7 +246,7 @@ function GarageCard({ garage }: { garage: GarageWithBid }) {
 			</div>
 			<h2 className="mt-2 text-lg font-semibold text-foreground truncate">{garage.title}</h2>
 			<p className="text-sm text-muted-foreground truncate">{garage.address}</p>
-			
+
 			<div className="mt-3 flex items-end justify-between">
 				<div>
 					{hasBids ? (

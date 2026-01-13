@@ -109,8 +109,13 @@ export default async function ProfileBidsPage() {
 
 	for (const bid of myBids) {
 		const garageId = bid.garage_id;
-		const garage = bid.garages as { id: string; title: string; address: string; bid_end_at: string } | null;
-		
+		const garage = bid.garages as {
+			id: string;
+			title: string;
+			address: string;
+			bid_end_at: string;
+		} | null;
+
 		if (!garage) continue;
 
 		const existing = garageMap.get(garageId);
@@ -142,7 +147,7 @@ export default async function ProfileBidsPage() {
 
 	// Convert to array and sort by latest bid date (descending)
 	const garagesWithBids = Array.from(garageMap.values()).sort(
-		(a, b) => new Date(b.myLatestBidDate).getTime() - new Date(a.myLatestBidDate).getTime()
+		(a, b) => new Date(b.myLatestBidDate).getTime() - new Date(a.myLatestBidDate).getTime(),
 	);
 
 	// Separate active and ended auctions
@@ -193,12 +198,12 @@ export default async function ProfileBidsPage() {
 function GarageBidCard({ garage }: { garage: GarageWithBidInfo }) {
 	const isWinning = garage.isMyBidHighest;
 	const isActive = garage.isActive;
-	
+
 	// Determine border and badge styling
 	let borderClass = "border-border/70";
 	let badgeText = "";
 	let badgeClass = "";
-	
+
 	if (isActive) {
 		if (isWinning) {
 			borderClass = "border-green-500/50 bg-green-500/5";
@@ -226,11 +231,11 @@ function GarageBidCard({ garage }: { garage: GarageWithBidInfo }) {
 			<div className="flex items-start justify-between gap-4">
 				<div className="flex-1 min-w-0">
 					<div className="flex items-center gap-2 flex-wrap">
-						<p className="text-base font-semibold text-foreground truncate">
-							{garage.garageTitle}
-						</p>
+						<p className="text-base font-semibold text-foreground truncate">{garage.garageTitle}</p>
 						{badgeText && (
-							<span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${badgeClass}`}>
+							<span
+								className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${badgeClass}`}
+							>
 								{badgeText}
 							</span>
 						)}
@@ -244,7 +249,7 @@ function GarageBidCard({ garage }: { garage: GarageWithBidInfo }) {
 					Se annonse →
 				</Link>
 			</div>
-			
+
 			<div className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
 				<div>
 					<p className="text-xs text-muted-foreground">Ditt høyeste bud</p>
@@ -254,7 +259,9 @@ function GarageBidCard({ garage }: { garage: GarageWithBidInfo }) {
 				</div>
 				<div>
 					<p className="text-xs text-muted-foreground">Ledende bud</p>
-					<p className={`text-sm font-semibold ${isWinning ? "text-green-400" : "text-foreground"}`}>
+					<p
+						className={`text-sm font-semibold ${isWinning ? "text-green-400" : "text-foreground"}`}
+					>
 						{garage.currentHighestBid.toLocaleString("no-NO")} kr
 					</p>
 				</div>
