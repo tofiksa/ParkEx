@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/tofiksa/ParkEx/compare/v1.3.0...v1.3.1) (2026-01-13)
+
+
+### Bug Fixes
+
+* **auth:** redirect to home page on logout from any page ([87647e3](https://github.com/tofiksa/ParkEx/commit/87647e3ec498d0e76d9fae6eb82e8982fce7f68c))
+
 ## [1.3.0](https://github.com/tofiksa/ParkEx/compare/v1.2.0...v1.3.0) (2026-01-13)
 
 
