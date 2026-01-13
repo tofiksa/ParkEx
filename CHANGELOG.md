@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/tofiksa/ParkEx/compare/v1.3.1...v1.3.2) (2026-01-13)
+
+
+### Bug Fixes
+
+* **tsconfig:** updated the configuration to latest best practices for nextjs ([4342ce2](https://github.com/tofiksa/ParkEx/commit/4342ce2aaef4a47dd29a952e9aaf283798b7d30e))
+
 ## [1.3.1](https://github.com/tofiksa/ParkEx/compare/v1.3.0...v1.3.1) (2026-01-13)
 
 
