@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ObfuscatedEmail } from "../components/ObfuscatedEmail";
+import { ObfuscatedEmail } from "@/components/ObfuscatedEmail";
 
 export const metadata: Metadata = {
 	title: "Personvernerklæring | ParkEx",

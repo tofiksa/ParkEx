@@ -1,6 +1,6 @@
+import { RealtimeBidCarousel } from "@/components/RealtimeBidCarousel";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type { GarageCarouselItem } from "@/types";
-import { RealtimeBidCarousel } from "./components/RealtimeBidCarousel";
 
 export default async function Home() {
 	const supabase = await getSupabaseServerClient();
