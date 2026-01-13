@@ -1,9 +1,11 @@
 "use client";
+
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
+
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
@@ -89,6 +91,24 @@ export default function RegisterPage() {
 							},
 							anchor: {
 								color: "hsl(225 100% 68%)",
+							},
+						},
+					}}
+					localization={{
+						variables: {
+							sign_up: {
+								email_label: "E-postadresse",
+								password_label: "Opprett passord",
+								email_input_placeholder: "Din e-postadresse",
+								password_input_placeholder: "Ditt passord",
+								button_label: "Opprett konto",
+								loading_button_label: "Oppretter konto...",
+								social_provider_text: "Registrer deg med {{provider}}",
+								link_text: "Har du allerede en konto? Logg inn",
+								confirmation_text: "Sjekk e-posten din for bekreftelseslenke",
+							},
+							sign_in: {
+								link_text: "Har du allerede en konto? Logg inn",
 							},
 						},
 					}}

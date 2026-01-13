@@ -125,6 +125,32 @@ function LoginForm() {
 							},
 						},
 					}}
+					localization={{
+						variables: {
+							sign_in: {
+								email_label: "E-postadresse",
+								password_label: "Passord",
+								email_input_placeholder: "Din e-postadresse",
+								password_input_placeholder: "Ditt passord",
+								button_label: "Logg inn",
+								loading_button_label: "Logger inn...",
+								social_provider_text: "Logg inn med {{provider}}",
+								link_text: "Har du ikke konto? Registrer deg",
+							},
+							sign_up: {
+								link_text: "Har du ikke konto? Registrer deg",
+							},
+							forgotten_password: {
+								email_label: "E-postadresse",
+								password_label: "Passord",
+								email_input_placeholder: "Din e-postadresse",
+								button_label: "Send tilbakestillingslenke",
+								loading_button_label: "Sender lenke...",
+								link_text: "Glemt passord?",
+								confirmation_text: "Sjekk e-posten din for tilbakestillingslenke",
+							},
+						},
+					}}
 					providers={["google"]}
 					onlyThirdPartyProviders={false}
 					view="sign_in"
