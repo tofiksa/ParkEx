@@ -52,3 +52,38 @@ textarea {
   @apply rounded-full border border-primary/40 bg-primary/15 px-3 py-1 text-xs font-semibold text-primary;
 }
 
+/* ============================================
+   Supabase Auth UI - WCAG Contrast Fixes
+   WCAG AA requires minimum 4.5:1 for normal text
+   ============================================ */
+
+/* 
+ * Success/info messages - using dark theme consistent styling
+ * Dark green background with light text for better dark-mode integration
+ * Contrast ratio: #d1fae5 on #064e3b = ~10:1 (exceeds WCAG AAA)
+ */
+[class*="supabase-auth-ui_ui-message"],
+.supabase-auth-ui_ui-message,
+span[class*="supabase-auth-ui_ui-message"] {
+  color: #d1fae5 !important; /* Light green text */
+  background-color: #064e3b !important; /* Dark green background */
+  border: 1px solid #10b981 !important; /* Emerald border */
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Error messages - red theme with proper contrast */
+[class*="supabase-auth-ui_ui-message"][class*="error"],
+[class*="supabase-auth-ui_ui-message--error"],
+.supabase-auth-ui_ui-message[class*="error"] {
+  color: #fecaca !important; /* Light red text */
+  background-color: #450a0a !important; /* Dark red background */
+  border: 1px solid #dc2626 !important;
+}
+
+/* Ensure span inside message also inherits correct color */
+[class*="supabase-auth-ui_ui-message"] span,
+.supabase-auth-ui_ui-message span {
+  color: inherit !important;
+}

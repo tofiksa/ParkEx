@@ -118,7 +118,13 @@ function LoginForm() {
 								color: "hsl(226 45% 96%)",
 							},
 							message: {
-								color: "hsl(226 45% 96%)",
+								/* WCAG compliant: light green text on dark green bg (~10:1 contrast) */
+								color: "#d1fae5",
+								backgroundColor: "#064e3b",
+								border: "1px solid #10b981",
+								borderRadius: "0.5rem",
+								padding: "1rem",
+								marginTop: "0.5rem",
 							},
 							anchor: {
 								color: "hsl(225 100% 68%)",
