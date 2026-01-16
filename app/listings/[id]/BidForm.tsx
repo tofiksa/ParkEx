@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function BidForm({ garageId, minRequired }: Props) {
-	const [amount, setAmount] = useState(minRequired);
+	const [amount, setAmount] = useState<number | string>(minRequired);
 	const [message, setMessage] = useState<string | null>(null);
 	const [submitting, setSubmitting] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
@@ -44,12 +44,18 @@ export function BidForm({ garageId, minRequired }: Props) {
 			return;
 		}
 
+		const numericAmount = Number(amount);
+		if (!numericAmount || numericAmount < minRequired) {
+			setMessage(`Beløp må være minst ${minRequired.toLocaleString("no-NO")} kr`);
+			return;
+		}
+
 		setSubmitting(true);
 		setMessage(null);
 		const res = await fetch("/api/bids", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ garageId, amount: Number(amount) }),
+			body: JSON.stringify({ garageId, amount: numericAmount }),
 		});
 		const json = await res.json();
 		if (!res.ok) {
@@ -95,7 +101,9 @@ export function BidForm({ garageId, minRequired }: Props) {
 					min={minRequired}
 					step="1"
 					value={amount}
-					onChange={(e) => setAmount(Number(e.target.value))}
+					onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))}
+					onFocus={(e) => e.target.select()}
+					placeholder={minRequired.toLocaleString("no-NO")}
 					className="rounded-md border border-border bg-background px-3 py-2 text-foreground"
 				/>
 			</label>
