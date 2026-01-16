@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.3](https://github.com/tofiksa/ParkEx/compare/v1.3.2...v1.3.3) (2026-01-16)
+
+
+### Bug Fixes
+
+* **a11y:** improve WCAG contrast for Supabase Auth UI messages ([eb2111f](https://github.com/tofiksa/ParkEx/commit/eb2111f9f8044ed12af9468e3f5c7a9062181c59))
+* **ux:** improve bid input field usability ([c49a037](https://github.com/tofiksa/ParkEx/commit/c49a0370b57ea0087e2071b4a652c10241253b11))
+
 ## [1.3.2](https://github.com/tofiksa/ParkEx/compare/v1.3.1...v1.3.2) (2026-01-13)
 
 
