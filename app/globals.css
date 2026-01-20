@@ -57,33 +57,27 @@ textarea {
    WCAG AA requires minimum 4.5:1 for normal text
    ============================================ */
 
-/* 
- * Success/info messages - using dark theme consistent styling
- * Dark green background with light text for better dark-mode integration
- * Contrast ratio: #d1fae5 on #064e3b = ~10:1 (exceeds WCAG AAA)
- */
-[class*="supabase-auth-ui_ui-message"],
-.supabase-auth-ui_ui-message,
-span[class*="supabase-auth-ui_ui-message"] {
-  color: #d1fae5 !important; /* Light green text */
-  background-color: #064e3b !important; /* Dark green background */
-  border: 1px solid #10b981 !important; /* Emerald border */
-  border-radius: 0.5rem !important;
-  padding: 1rem !important;
-  margin-top: 0.5rem !important;
+/* Success messages - dark green text on light green background */
+[class*="supabase-auth-ui_ui-message"]:not([class*="error"]) {
+  color: #166534 !important; /* Dark green - contrast ratio ~7:1 on #E7FCF1 */
+  background-color: #dcfce7 !important; /* Light green background */
+  border: 1px solid #16a34a !important;
 }
 
-/* Error messages - red theme with proper contrast */
+/* Error messages - ensure readable on dark theme */
 [class*="supabase-auth-ui_ui-message"][class*="error"],
-[class*="supabase-auth-ui_ui-message--error"],
-.supabase-auth-ui_ui-message[class*="error"] {
+[class*="supabase-auth-ui_ui-message--error"] {
   color: #fecaca !important; /* Light red text */
   background-color: #450a0a !important; /* Dark red background */
   border: 1px solid #dc2626 !important;
 }
 
-/* Ensure span inside message also inherits correct color */
-[class*="supabase-auth-ui_ui-message"] span,
-.supabase-auth-ui_ui-message span {
-  color: inherit !important;
+/* Alternative selector for Supabase message elements */
+.supabase-auth-ui_ui-message {
+  color: #166534 !important;
+  background-color: #dcfce7 !important;
+  border: 1px solid #16a34a !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.5rem;
 }
